@@ -3,384 +3,517 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ElitePrep — IELTS Mock Test</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>ElitePrep — IELTS Full Mock Test</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
+        html,
         body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0a0e1a;
             color: #e2e8f0;
-            min-height: 100vh;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
 
-        /* HEADER */
-        .header {
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+        .app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            height: 100dvh;
+            width: 100vw;
+        }
+
+        /* ===== SPLASH SCREEN ===== */
+        .splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0a0e1a 0%, #1e1b4b 50%, #0a0e1a 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.5s, visibility 0.5s;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .splash.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .splash-logo {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+        }
+
+        .splash-logo span {
+            background: linear-gradient(135deg, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .splash-sub {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .splash-info {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .splash-badge {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 10px;
             padding: 12px 16px;
+            text-align: center;
+            min-width: 80px;
+        }
+
+        .splash-badge .num {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #818cf8;
+        }
+
+        .splash-badge .lbl {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #6366f1, #7c3aed);
+            color: white;
+            border: none;
+            padding: 16px 50px;
+            font-size: 18px;
+            font-weight: 800;
+            border-radius: 14px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 6px 30px rgba(99, 102, 241, 0.4);
+            animation: btnPulse 2s infinite;
+            letter-spacing: 0.5px;
+        }
+
+        @keyframes btnPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 6px 30px rgba(99, 102, 241, 0.4)
+            }
+
+            50% {
+                box-shadow: 0 6px 40px rgba(99, 102, 241, 0.7)
+            }
+        }
+
+        .start-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* ===== TOP BAR ===== */
+        .topbar {
+            background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+            padding: 8px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
+            flex-shrink: 0;
             z-index: 100;
+            padding-top: max(8px, env(safe-area-inset-top));
         }
 
-        .logo {
-            font-size: 1.1rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, #818cf8, #6366f1);
+        .brand {
+            font-weight: 900;
+            font-size: 0.9rem;
+        }
+
+        .brand span {
+            background: linear-gradient(135deg, #818cf8, #a78bfa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .tabs {
             display: flex;
-            gap: 4px;
+            gap: 2px;
             background: rgba(30, 41, 59, 0.8);
-            padding: 4px;
+            padding: 3px;
             border-radius: 10px;
         }
 
-        .tab-btn {
+        .tab {
             background: none;
             border: none;
-            color: #94a3b8;
-            font-size: 13px;
-            cursor: pointer;
-            padding: 8px 14px;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 6px 10px;
             border-radius: 8px;
-            font-weight: 600;
-            transition: all 0.3s;
+            cursor: pointer;
+            transition: all 0.25s;
             font-family: 'Inter', sans-serif;
         }
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, #6366f1, #818cf8);
-            color: white;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        .tab.active {
+            background: linear-gradient(135deg, #6366f1, #7c3aed);
+            color: #fff;
+            box-shadow: 0 2px 12px rgba(99, 102, 241, 0.4);
         }
 
-        .tab-btn:hover:not(.active) {
-            color: #c7d2fe;
-        }
-
-        .timer {
+        .timer-box {
             font-family: 'Inter', monospace;
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 800;
             color: #22d3ee;
-            background: rgba(34, 211, 238, 0.1);
-            padding: 6px 12px;
+            background: rgba(34, 211, 238, 0.08);
+            padding: 5px 8px;
             border-radius: 8px;
-            border: 1px solid rgba(34, 211, 238, 0.3);
+            border: 1px solid rgba(34, 211, 238, 0.2);
         }
 
-        /* SECTION CONTAINER */
-        .section {
+        .timer-box.warn {
+            color: #f87171;
+            border-color: rgba(248, 113, 113, 0.3);
+            background: rgba(248, 113, 113, 0.08);
+        }
+
+        /* ===== PROGRESS ===== */
+        .progress {
+            display: flex;
+            gap: 6px;
+            padding: 6px 12px;
+            flex-shrink: 0;
+        }
+
+        .dot {
+            flex: 1;
+            height: 3px;
+            background: rgba(99, 102, 241, 0.15);
+            border-radius: 100px;
+            transition: 0.4s;
+        }
+
+        .dot.done {
+            background: linear-gradient(90deg, #6366f1, #818cf8);
+        }
+
+        .dot.now {
+            background: #818cf8;
+            animation: glow 2s infinite;
+        }
+
+        @keyframes glow {
+
+            0%,
+            100% {
+                opacity: 1
+            }
+
+            50% {
+                opacity: 0.4
+            }
+        }
+
+        /* ===== CONTENT ===== */
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .page {
             display: none;
-            padding: 16px;
-            min-height: calc(100vh - 60px);
-            animation: fadeIn 0.3s ease;
+            padding: 12px;
+            padding-bottom: 90px;
+            animation: slideUp 0.3s ease;
         }
 
-        .section.active {
+        .page.active {
             display: block;
         }
 
-        @keyframes fadeIn {
+        @keyframes slideUp {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(15px)
             }
 
             to {
                 opacity: 1;
-                transform: translateY(0);
+                transform: translateY(0)
             }
         }
 
-        /* PANELS */
-        .panel {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(99, 102, 241, 0.15);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 16px;
+        /* ===== CARD ===== */
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: 14px;
+            padding: 16px;
+            margin-bottom: 12px;
         }
 
-        .panel h2 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 16px;
+        .card-title {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .panel h2 .icon {
-            font-size: 1.5rem;
-        }
-
-        /* SPLIT LAYOUT */
-        .split {
-            display: flex;
-            gap: 16px;
-            flex-direction: column;
-        }
-
-        @media (min-width: 768px) {
-            .split {
-                flex-direction: row;
-            }
-
-            .split>.panel {
-                flex: 1;
-                max-height: 80vh;
-                overflow-y: auto;
-            }
-        }
-
-        /* AUDIO */
-        .audio-wrap {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(139, 92, 246, 0.1));
-            border: 1px solid rgba(99, 102, 241, 0.3);
+        /* ===== AUDIO ===== */
+        .audio-box {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08));
+            border: 1px solid rgba(99, 102, 241, 0.2);
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 20px;
+            padding: 12px;
+            margin-bottom: 14px;
         }
 
-        .audio-wrap p {
-            font-size: 13px;
+        .audio-box small {
             color: #94a3b8;
-            margin-bottom: 10px;
+            font-size: 11px;
+            display: block;
+            margin-bottom: 6px;
         }
 
         audio {
             width: 100%;
-            border-radius: 30px;
+            height: 36px;
+            border-radius: 20px;
         }
 
-        /* QUESTIONS */
-        .question {
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(99, 102, 241, 0.1);
+        /* ===== QUESTION ===== */
+        .q {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(99, 102, 241, 0.08);
             border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 14px;
-            transition: all 0.2s;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: 0.2s;
         }
 
-        .question:hover {
-            border-color: rgba(99, 102, 241, 0.3);
+        .q-num {
+            font-size: 10px;
+            font-weight: 700;
+            color: #818cf8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
         }
 
-        .question .q-text {
+        .q-text {
             font-weight: 600;
-            font-size: 15px;
-            margin-bottom: 12px;
-            color: #e2e8f0;
+            font-size: 13px;
             line-height: 1.5;
+            margin-bottom: 8px;
         }
 
-        .option {
+        .opt {
             display: flex;
             align-items: center;
-            padding: 10px 14px;
-            margin-bottom: 6px;
-            background: rgba(30, 41, 59, 0.6);
-            border: 1px solid rgba(71, 85, 105, 0.4);
-            border-radius: 10px;
+            gap: 8px;
+            padding: 9px 10px;
+            margin-bottom: 4px;
+            background: rgba(30, 41, 59, 0.5);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.2s;
         }
 
-        .option:hover {
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, 0.1);
+        .opt:active {
+            transform: scale(0.98);
         }
 
-        .option input[type="radio"] {
-            width: 18px;
-            height: 18px;
+        .opt.picked {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.12);
+        }
+
+        .opt input {
+            width: 15px;
+            height: 15px;
             accent-color: #6366f1;
-            margin-right: 12px;
             flex-shrink: 0;
+            pointer-events: none;
         }
 
-        .option label {
-            cursor: pointer;
-            font-size: 14px;
-            flex: 1;
+        .opt span {
+            font-size: 12px;
+            font-weight: 500;
         }
 
-        .option.selected {
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, 0.15);
-        }
-
-        /* PASSAGE */
+        /* ===== PASSAGE ===== */
         .passage {
-            font-size: 15px;
+            font-size: 13px;
             line-height: 1.8;
             color: #cbd5e1;
         }
 
         .passage p {
-            margin-bottom: 14px;
+            margin-bottom: 10px;
             text-align: justify;
         }
 
-        .passage-title {
+        .passage-heading {
             color: #a5b4fc;
-            font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
         }
 
-        /* WRITING */
-        .writing-prompt {
+        .split {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        @media(min-width:768px) {
+            .split {
+                flex-direction: row;
+            }
+
+            .split>.card {
+                flex: 1;
+                max-height: 75vh;
+                overflow-y: auto;
+            }
+        }
+
+        /* ===== WRITING ===== */
+        .prompt-box {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
             border-left: 4px solid #6366f1;
-            padding: 20px;
+            padding: 14px;
             border-radius: 0 12px 12px 0;
-            font-size: 16px;
+            font-size: 14px;
             line-height: 1.7;
             font-weight: 500;
-            color: #e2e8f0;
         }
 
         textarea {
             width: 100%;
-            height: 350px;
-            padding: 16px;
+            min-height: 250px;
+            padding: 12px;
             font-family: 'Inter', sans-serif;
-            font-size: 15px;
+            font-size: 13px;
             line-height: 1.6;
             background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 12px;
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: 10px;
             color: #e2e8f0;
-            resize: none;
-            transition: all 0.2s;
+            resize: vertical;
+            transition: 0.2s;
         }
 
         textarea:focus {
             outline: none;
             border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
         }
 
         textarea::placeholder {
             color: #475569;
         }
 
-        .word-count {
+        .wc {
             text-align: right;
-            margin-top: 8px;
-            font-size: 14px;
+            font-size: 12px;
             color: #64748b;
+            margin-top: 4px;
             font-weight: 600;
         }
 
-        .word-count strong {
+        .wc b {
             color: #818cf8;
         }
 
-        /* BUTTONS */
+        /* ===== BOTTOM BAR ===== */
+        .bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(99, 102, 241, 0.15);
+            padding: 10px 12px;
+            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            z-index: 100;
+        }
+
         .btn {
             display: block;
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             border: none;
             border-radius: 12px;
-            font-size: 16px;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.25s;
             font-family: 'Inter', sans-serif;
-            margin-top: 16px;
         }
 
-        .btn-next {
-            background: linear-gradient(135deg, #6366f1, #818cf8);
-            color: white;
+        .btn-primary {
+            background: linear-gradient(135deg, #6366f1, #7c3aed);
+            color: #fff;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .btn-next:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        .btn-primary:active {
+            transform: scale(0.98);
         }
 
-        .btn-submit {
-            background: linear-gradient(135deg, #10b981, #34d399);
-            color: white;
+        .btn-green {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: #fff;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
-            font-size: 18px;
-            padding: 16px;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        .btn-green:active {
+            transform: scale(0.98);
         }
 
-        .btn-submit:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        /* PROGRESS BAR */
-        .progress-bar {
-            display: flex;
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-
-        .progress-dot {
-            flex: 1;
-            height: 4px;
-            background: rgba(99, 102, 241, 0.2);
-            border-radius: 100px;
-            transition: 0.3s;
-        }
-
-        .progress-dot.done {
-            background: #6366f1;
-        }
-
-        .progress-dot.active {
-            background: #818cf8;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        /* SCROLLBAR */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 3px;
         }
 
         ::-webkit-scrollbar-track {
@@ -388,263 +521,312 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.3);
+            background: rgba(99, 102, 241, 0.25);
             border-radius: 100px;
+        }
+
+        /* TIINY.HOST BANNER NI YASHIRISH */
+        [id*="tiiny"],
+        [class*="tiiny"],
+        div[style*="z-index: 2147483647"],
+        iframe[src*="tiiny"],
+        div[style*="position: fixed"][style*="bottom"]>a {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            width: 0 !important;
+            opacity: 0 !important;
         }
     </style>
 </head>
 
 <body>
-    <!-- HEADER -->
-    <div class="header">
-        <div class="logo">ElitePrep</div>
-        <div class="tabs">
-            <button class="tab-btn active" onclick="go('listening')">🎧</button>
-            <button class="tab-btn" onclick="go('reading')">📖</button>
-            <button class="tab-btn" onclick="go('writing')">✍️</button>
-        </div>
-        <div class="timer" id="timer">40:00</div>
-    </div>
 
-    <!-- PROGRESS -->
-    <div style="padding: 12px 16px 0;">
-        <div class="progress-bar">
-            <div class="progress-dot active" id="dot-listening"></div>
-            <div class="progress-dot" id="dot-reading"></div>
-            <div class="progress-dot" id="dot-writing"></div>
-        </div>
-    </div>
-
-    <!-- ========== LISTENING ========== -->
-    <div id="listening" class="section active">
-        <div class="panel" style="max-width: 800px; margin: 0 auto;">
-            <h2><span class="icon">🎧</span> Listening Section</h2>
-
-            <div class="audio-wrap">
-                <p>🔊 Listen carefully, then answer the questions below.</p>
-                <audio controls>
-                    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-                </audio>
+    <!-- ===== SPLASH / START SCREEN ===== -->
+    <div class="splash" id="splash">
+        <div class="splash-logo"><span>ElitePrep</span></div>
+        <div style="font-size:1rem;font-weight:700;margin-bottom:6px;">IELTS Full Mock Test</div>
+        <div class="splash-sub">Listening • Reading • Writing • AI Speaking</div>
+        <div class="splash-info">
+            <div class="splash-badge">
+                <div class="num">🎧</div>
+                <div class="lbl">Listening</div>
             </div>
-
-            <div id="listening-qs">
-                <!-- Q1 -->
-                <div class="question" data-correct="B">
-                    <div class="q-text">1. What is the main purpose of the speaker's talk?</div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l1" value="A"><label>To describe
-                            a holiday destination</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l1" value="B"><label>To explain a
-                            university course</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l1" value="C"><label>To advertise
-                            a product</label></div>
-                </div>
-                <!-- Q2 -->
-                <div class="question" data-correct="A">
-                    <div class="q-text">2. The course starts on:</div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l2"
-                            value="A"><label>Monday</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l2"
-                            value="B"><label>Wednesday</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l2"
-                            value="C"><label>Friday</label></div>
-                </div>
-                <!-- Q3 -->
-                <div class="question" data-correct="C">
-                    <div class="q-text">3. How many students are in the class?</div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l3" value="A"><label>15</label>
-                    </div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l3" value="B"><label>20</label>
-                    </div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="l3" value="C"><label>25</label>
-                    </div>
-                </div>
+            <div class="splash-badge">
+                <div class="num">📖</div>
+                <div class="lbl">Reading</div>
             </div>
-
-            <button class="btn btn-next" onclick="go('reading')">Continue to Reading ➔</button>
-        </div>
-    </div>
-
-    <!-- ========== READING ========== -->
-    <div id="reading" class="section">
-        <div class="split">
-            <div class="panel">
-                <h2><span class="icon">📖</span> Reading Passage</h2>
-                <div class="passage-title">The Impact of Social Media on Education</div>
-                <div class="passage">
-                    <p>Social media has become an integral part of modern life, especially for younger generations.
-                        Platforms such as Instagram, TikTok, and YouTube have transformed how people communicate,
-                        consume information, and even learn. In educational settings, social media presents both
-                        opportunities and challenges.</p>
-                    <p>Proponents argue that social media can be a powerful educational tool. It enables students to
-                        access a vast range of learning materials, participate in online discussions, and collaborate
-                        with peers across the globe. Many educators have embraced platforms like YouTube for delivering
-                        lectures and tutorials, making education more accessible than ever before.</p>
-                    <p>However, critics point out that social media can be a significant distraction. Studies have shown
-                        that excessive use of social media is associated with lower academic performance, reduced
-                        attention spans, and increased levels of anxiety among students. The constant stream of
-                        notifications and the pressure to maintain an online presence can detract from focused study
-                        time.</p>
-                    <p>Despite these concerns, many educational institutions are finding ways to integrate social media
-                        into their curricula in a structured and beneficial manner. By setting clear guidelines and
-                        promoting digital literacy, schools can help students harness the benefits of social media while
-                        minimizing its drawbacks.</p>
-                </div>
+            <div class="splash-badge">
+                <div class="num">✍️</div>
+                <div class="lbl">Writing</div>
             </div>
-
-            <div class="panel" id="reading-qs">
-                <h2><span class="icon">❓</span> Questions</h2>
-
-                <!-- Q1 -->
-                <div class="question" data-correct="True">
-                    <div class="q-text">1. Social media has changed how people learn. (True / False / Not Given)</div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r1"
-                            value="True"><label>True</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r1"
-                            value="False"><label>False</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r1" value="Not Given"><label>Not
-                            Given</label></div>
-                </div>
-                <!-- Q2 -->
-                <div class="question" data-correct="B">
-                    <div class="q-text">2. According to the passage, what is a benefit of social media in education?
-                    </div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r2" value="A"><label>It replaces
-                            traditional teachers</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r2" value="B"><label>It gives
-                            access to many learning materials</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r2" value="C"><label>It
-                            eliminates the need for textbooks</label></div>
-                </div>
-                <!-- Q3 -->
-                <div class="question" data-correct="False">
-                    <div class="q-text">3. All educational institutions have banned social media. (True / False / Not
-                        Given)</div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r3"
-                            value="True"><label>True</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r3"
-                            value="False"><label>False</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r3" value="Not Given"><label>Not
-                            Given</label></div>
-                </div>
-                <!-- Q4 -->
-                <div class="question" data-correct="A">
-                    <div class="q-text">4. What negative effect of social media is mentioned?</div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r4" value="A"><label>Reduced
-                            attention spans</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r4" value="B"><label>Physical
-                            health problems</label></div>
-                    <div class="option" onclick="pick(this)"><input type="radio" name="r4" value="C"><label>Financial
-                            difficulties</label></div>
-                </div>
-
-                <button class="btn btn-next" onclick="go('writing')">Continue to Writing ➔</button>
+            <div class="splash-badge">
+                <div class="num">🤖</div>
+                <div class="lbl">AI Speaking</div>
             </div>
         </div>
+        <button class="start-btn" onclick="startTest()">🚀 Testni boshlash</button>
+        <div style="color:#64748b;font-size:11px;margin-top:16px;">40 daqiqa • Listening, Reading, Writing</div>
     </div>
 
-    <!-- ========== WRITING ========== -->
-    <div id="writing" class="section">
-        <div class="split">
-            <div class="panel">
-                <h2><span class="icon">✍️</span> Writing Task 2</h2>
-                <p style="color: #94a3b8; font-size: 14px; margin-bottom: 16px;">You should spend about 40 minutes on
-                    this task.</p>
-                <div class="writing-prompt">
-                    Some people believe that technology has made our lives more complicated, while others argue it has
-                    simplified everyday tasks.<br><br>
-                    <strong>Discuss both views and give your own opinion.</strong>
+    <!-- ===== MAIN APP ===== -->
+    <div class="app" id="mainApp" style="display:none;">
+        <div class="topbar">
+            <div class="brand"><span>ElitePrep</span></div>
+            <div class="tabs">
+                <button class="tab active" data-tab="listening">🎧</button>
+                <button class="tab" data-tab="reading">📖</button>
+                <button class="tab" data-tab="writing">✍️</button>
+            </div>
+            <div class="timer-box" id="timer">40:00</div>
+        </div>
+        <div class="progress">
+            <div class="dot now" id="d-listening"></div>
+            <div class="dot" id="d-reading"></div>
+            <div class="dot" id="d-writing"></div>
+        </div>
+        <div class="content">
+            <!-- LISTENING -->
+            <div class="page active" id="p-listening">
+                <div class="card">
+                    <div class="card-title">🎧 Listening</div>
+                    <div class="audio-box">
+                        <small>🔊 Eshiting va javob bering</small>
+                        <audio controls preload="auto">
+                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+                                type="audio/mpeg">
+                        </audio>
+                    </div>
+                    <div id="lqs">
+                        <div class="q" data-ans="B">
+                            <div class="q-num">Question 1</div>
+                            <div class="q-text">What is the main purpose of the speaker's talk?</div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="A"><span>A) To
+                                    describe a holiday destination</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="B"><span>B) To
+                                    explain a university course</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="C"><span>C) To
+                                    advertise a product</span></div>
+                        </div>
+                        <div class="q" data-ans="A">
+                            <div class="q-num">Question 2</div>
+                            <div class="q-text">The course begins on:</div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l2" value="A"><span>A)
+                                    Monday</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l2" value="B"><span>B)
+                                    Wednesday</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l2" value="C"><span>C)
+                                    Friday</span></div>
+                        </div>
+                        <div class="q" data-ans="C">
+                            <div class="q-num">Question 3</div>
+                            <div class="q-text">How many students are enrolled?</div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l3" value="A"><span>A)
+                                    15</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l3" value="B"><span>B)
+                                    20</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l3" value="C"><span>C)
+                                    25</span></div>
+                        </div>
+                    </div>
                 </div>
-                <p style="margin-top: 16px; font-weight: 600; color: #a5b4fc;">Write at least 250 words.</p>
             </div>
-
-            <div class="panel">
-                <h2><span class="icon">📝</span> Your Essay</h2>
-                <textarea id="essay" placeholder="Start writing your essay here..."></textarea>
-                <div class="word-count">Words: <strong id="wc">0</strong> / 250+</div>
-                <button class="btn btn-submit" id="submitBtn" onclick="submit()">🚀 Submit Test to Bot</button>
+            <!-- READING -->
+            <div class="page" id="p-reading">
+                <div class="split">
+                    <div class="card">
+                        <div class="card-title">📖 Reading Passage</div>
+                        <div class="passage-heading">The Impact of Social Media on Education</div>
+                        <div class="passage">
+                            <p>Social media has become an integral part of modern life, especially for younger
+                                generations. Platforms such as Instagram, TikTok, and YouTube have transformed how
+                                people communicate, consume information, and even learn.</p>
+                            <p>Proponents argue that social media can be a powerful educational tool. It enables
+                                students to access a vast range of learning materials, participate in online
+                                discussions, and collaborate with peers across the globe.</p>
+                            <p>However, critics point out that social media can be a significant distraction. Studies
+                                have shown that excessive use is associated with lower academic performance, reduced
+                                attention spans, and increased anxiety.</p>
+                            <p>Despite these concerns, many institutions are finding ways to integrate social media into
+                                their curricula. By setting clear guidelines and promoting digital literacy, schools can
+                                help students harness the benefits while minimizing drawbacks.</p>
+                        </div>
+                    </div>
+                    <div class="card" id="rqs">
+                        <div class="card-title">❓ Questions</div>
+                        <div class="q" data-ans="True">
+                            <div class="q-num">Question 1</div>
+                            <div class="q-text">Social media has changed how people learn. (T/F/NG)</div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r1"
+                                    value="True"><span>True</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r1"
+                                    value="False"><span>False</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r1"
+                                    value="Not Given"><span>Not Given</span></div>
+                        </div>
+                        <div class="q" data-ans="B">
+                            <div class="q-num">Question 2</div>
+                            <div class="q-text">What is a benefit of social media in education?</div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r2" value="A"><span>A)
+                                    Replaces teachers</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r2" value="B"><span>B)
+                                    Access to learning materials</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r2" value="C"><span>C)
+                                    Eliminates textbooks</span></div>
+                        </div>
+                        <div class="q" data-ans="False">
+                            <div class="q-num">Question 3</div>
+                            <div class="q-text">All institutions have banned social media. (T/F/NG)</div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r3"
+                                    value="True"><span>True</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r3"
+                                    value="False"><span>False</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r3"
+                                    value="Not Given"><span>Not Given</span></div>
+                        </div>
+                        <div class="q" data-ans="A">
+                            <div class="q-num">Question 4</div>
+                            <div class="q-text">What negative effect is mentioned?</div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r4" value="A"><span>A)
+                                    Reduced attention spans</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r4" value="B"><span>B)
+                                    Physical health problems</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="r4" value="C"><span>C)
+                                    Financial difficulties</span></div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- WRITING -->
+            <div class="page" id="p-writing">
+                <div class="split">
+                    <div class="card">
+                        <div class="card-title">✍️ Writing Task 2</div>
+                        <p style="color:#94a3b8;font-size:12px;margin-bottom:12px;">Spend about 40 minutes on this task.
+                        </p>
+                        <div class="prompt-box">
+                            Some people believe that technology has made our lives more complicated, while others argue
+                            it has simplified everyday tasks.<br><br>
+                            <strong>Discuss both views and give your own opinion.</strong>
+                        </div>
+                        <p style="margin-top:12px;font-weight:700;color:#a5b4fc;font-size:12px;">✏️ Write at least 250
+                            words.</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-title">📝 Your Essay</div>
+                        <textarea id="essay" placeholder="Start writing your essay here..."></textarea>
+                        <div class="wc">Words: <b id="wc">0</b> / 250+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bottom" id="bottomBar">
+            <button class="btn btn-primary" id="mainBtn" onclick="nextSection()">Continue to Reading ➔</button>
         </div>
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
+
+        // START BUTTON bosilganda full screen qilinadi
+        function startTest() {
+            // Full screen qilish
+            tg.expand();
+            try { if (tg.requestFullscreen) tg.requestFullscreen(); } catch (e) { }
+            try { tg.setHeaderColor('#0a0e1a'); tg.setBackgroundColor('#0a0e1a'); } catch (e) { }
+            try { tg.BackButton.hide(); } catch (e) { }
+
+            // Splash ni yashirish va asosiy ilovani ko'rsatish
+            document.getElementById('splash').classList.add('hidden');
+            document.getElementById('mainApp').style.display = 'flex';
+
+            // Tiiny.host bannerni yashirish
+            setTimeout(() => {
+                document.querySelectorAll('body > div').forEach(el => {
+                    if (el.id !== 'splash' && el.id !== 'mainApp' && !el.classList.contains('app')) {
+                        el.style.display = 'none';
+                    }
+                });
+                // Fixed position div larni tekshirish
+                document.querySelectorAll('[style*="position: fixed"], [style*="position:fixed"]').forEach(el => {
+                    if (!el.closest('.app') && el.id !== 'splash' && el.id !== 'mainApp' && el.id !== 'bottomBar') {
+                        el.style.display = 'none';
+                    }
+                });
+            }, 500);
+
+            // Taymer boshlash
+            startTimer();
+        }
+
+        // Sahifa yuklanganda ham expand qilib ko'rish
         tg.expand();
-        // Dark theme
-        document.body.style.backgroundColor = tg.themeParams.bg_color || '#0f172a';
 
-        // Tab switching
-        function go(id) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
+        const pages = ['listening', 'reading', 'writing'];
+        let current = 0;
 
-            const tabs = document.querySelectorAll('.tab-btn');
-            const dots = ['listening', 'reading', 'writing'];
-            const idx = dots.indexOf(id);
-            tabs[idx].classList.add('active');
-
-            dots.forEach((d, i) => {
-                const dot = document.getElementById('dot-' + d);
-                dot.className = 'progress-dot';
-                if (i < idx) dot.classList.add('done');
-                else if (i === idx) dot.classList.add('active');
-            });
-        }
-
-        // Option click
-        function pick(el) {
-            const q = el.closest('.question');
-            q.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            el.querySelector('input').checked = true;
-        }
-
-        // Word counter
-        document.getElementById('essay').addEventListener('input', function () {
-            const w = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
-            document.getElementById('wc').innerText = w;
+        document.querySelectorAll('.tab').forEach(t => {
+            t.addEventListener('click', () => goTo(t.dataset.tab));
         });
 
-        // Score calculator
-        function score(containerId) {
-            let correct = 0, total = 0;
-            document.querySelectorAll('#' + containerId + ' .question').forEach(q => {
-                total++;
-                const ans = q.getAttribute('data-correct');
-                const sel = q.querySelector('input:checked');
-                if (sel && sel.value === ans) correct++;
+        function goTo(id) {
+            current = pages.indexOf(id);
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('p-' + id).classList.add('active');
+            document.querySelector('.tab[data-tab="' + id + '"]').classList.add('active');
+            pages.forEach((p, i) => {
+                const d = document.getElementById('d-' + p);
+                d.className = 'dot';
+                if (i < current) d.classList.add('done');
+                else if (i === current) d.classList.add('now');
             });
-            return { correct, total };
+            const btn = document.getElementById('mainBtn');
+            if (current === 0) { btn.textContent = 'Continue to Reading \u27A4'; btn.className = 'btn btn-primary'; btn.onclick = nextSection; }
+            else if (current === 1) { btn.textContent = 'Continue to Writing \u27A4'; btn.className = 'btn btn-primary'; btn.onclick = nextSection; }
+            else { btn.textContent = '\uD83D\uDE80 Submit Mock Test'; btn.className = 'btn btn-green'; btn.onclick = submit; }
+            document.querySelector('.content').scrollTo(0, 0);
         }
-
-        // Submit
+        function nextSection() { if (current < pages.length - 1) goTo(pages[current + 1]); }
+        function pick(el) {
+            const q = el.closest('.q');
+            q.querySelectorAll('.opt').forEach(o => o.classList.remove('picked'));
+            el.classList.add('picked');
+            el.querySelector('input').checked = true;
+        }
+        document.getElementById('essay').addEventListener('input', function () {
+            const w = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
+            document.getElementById('wc').textContent = w;
+        });
+        function calc(id) {
+            let c = 0, t = 0;
+            document.querySelectorAll('#' + id + ' .q').forEach(q => {
+                t++;
+                if (q.querySelector('input:checked') && q.querySelector('input:checked').value === q.dataset.ans) c++;
+            });
+            return { correct: c, total: t };
+        }
         function submit() {
             const essay = document.getElementById('essay').value.trim();
-            if (!essay || essay.split(/\s+/).length < 50) {
-                tg.showAlert('Iltimos, kamida 50 so\'z yozing!');
+            if (!essay || essay.split(/\s+/).length < 30) {
+                try { tg.showAlert("Kamida 30 so'z yozing!"); } catch (e) { alert("Kamida 30 so'z yozing!"); }
                 return;
             }
-            const data = {
-                type: 'mock_test_results',
-                listening: score('listening-qs'),
-                reading: score('reading-qs'),
-                writing: essay
-            };
-            tg.sendData(JSON.stringify(data));
+            try { tg.sendData(JSON.stringify({ type: 'mock_test_results', listening: calc('lqs'), reading: calc('rqs'), writing: essay })); }
+            catch (e) { alert('Xato! Qaytadan urinib ko\'ring.'); }
         }
-
-        // Timer (40 min)
         let secs = 40 * 60;
-        setInterval(() => {
-            if (secs <= 0) return;
-            secs--;
-            const m = Math.floor(secs / 60);
-            const s = secs % 60;
-            document.getElementById('timer').innerText = m + ':' + (s < 10 ? '0' : '') + s;
-            if (secs <= 300) document.getElementById('timer').style.color = '#f87171';
-            if (secs === 0) { tg.showAlert('Vaqt tugadi!'); submit(); }
-        }, 1000);
+        function startTimer() {
+            setInterval(() => {
+                if (secs <= 0) return;
+                secs--;
+                const m = Math.floor(secs / 60), s = secs % 60;
+                document.getElementById('timer').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+                if (secs <= 300) document.getElementById('timer').classList.add('warn');
+                if (secs === 0) { try { tg.showAlert('Vaqt tugadi!') } catch (e) { } setTimeout(submit, 1000); }
+            }, 1000);
+        }
     </script>
 </body>
 
