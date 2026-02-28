@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ElitePrep IELTS — Mock Center</title>
+    <title>ElitePrep — IELTS Prep</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -43,107 +43,93 @@
             width: 100%;
         }
 
-        /* HEADER */
-        .header {
-            padding: 20px 16px;
-            background: white;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-weight: 900;
-            font-size: 20px;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-        }
-
-        .logo span {
-            color: var(--text);
-        }
-
         /* DASHBOARD */
         .dashboard {
             flex: 1;
             overflow-y: auto;
-            padding: 20px 16px;
-            background-image: radial-gradient(#e11d4810 1px, transparent 1px);
-            background-size: 20px 20px;
+            padding: 24px 16px;
+            background-image: radial-gradient(#e11d4808 1.5px, transparent 1px);
+            background-size: 24px 24px;
         }
 
-        .welcome {
-            margin-bottom: 24px;
+        .header-logo {
+            text-align: center;
+            margin-bottom: 30px;
         }
 
-        .welcome h2 {
-            font-size: 24px;
-            font-weight: 800;
-            margin-bottom: 4px;
+        .header-logo h1 {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: -1px;
         }
 
-        .welcome p {
-            color: var(--muted);
+        .header-logo h1 span {
+            color: var(--primary);
+        }
+
+        .header-logo p {
             font-size: 14px;
+            color: var(--muted);
+            margin-top: 5px;
         }
 
         .test-list {
             display: grid;
-            gap: 16px;
+            gap: 20px;
         }
 
-        .test-card {
+        .card {
             background: white;
             border: 1.5px solid var(--border);
-            border-radius: 20px;
-            padding: 18px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            border-radius: 24px;
+            padding: 24px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .test-card:active {
-            transform: scale(0.97);
+        .card:active {
+            transform: translateY(2px);
             border-color: var(--primary);
         }
 
-        .icon-circle {
-            width: 54px;
-            height: 54px;
+        .card-icon {
+            width: 50px;
+            height: 50px;
             background: #fff1f2;
-            border-radius: 14px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
+            margin-bottom: 16px;
         }
 
-        .test-info {
-            flex: 1;
+        .card h3 {
+            font-size: 18px;
+            font-weight: 800;
+            margin-bottom: 6px;
         }
 
-        .test-info h3 {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .test-info p {
-            font-size: 12px;
+        .card p {
+            font-size: 13px;
             color: var(--muted);
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
         .start-btn {
             background: var(--primary);
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 10px;
-            font-weight: 700;
-            font-size: 13px;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+            cursor: pointer;
         }
 
         /* TEST UI */
@@ -163,6 +149,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: white;
         }
 
         .timer {
@@ -172,6 +159,7 @@
             background: #fff1f2;
             padding: 4px 10px;
             border-radius: 6px;
+            font-size: 14px;
         }
 
         .test-container {
@@ -183,37 +171,38 @@
 
         .q-view {
             background: white;
-            border-radius: 16px;
-            padding: 20px;
+            border-radius: 20px;
+            padding: 24px;
             border: 1px solid var(--border);
             margin-bottom: 80px;
         }
 
         .q-item {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .q-label {
             font-weight: 700;
-            font-size: 14px;
-            margin-bottom: 12px;
+            font-size: 15px;
+            margin-bottom: 14px;
             display: block;
         }
 
         .option {
-            padding: 14px;
+            padding: 15px;
             border: 1px solid var(--border);
-            border-radius: 12px;
-            margin-bottom: 8px;
+            border-radius: 14px;
+            margin-bottom: 10px;
             font-size: 14px;
             cursor: pointer;
             transition: 0.2s;
+            background: #fff;
         }
 
         .option.active {
             background: #fff1f2;
             border-color: var(--primary);
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .footer-action {
@@ -224,7 +213,6 @@
             padding: 16px;
             background: white;
             border-top: 1px solid var(--border);
-            box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.02);
         }
 
         .main-btn {
@@ -233,26 +221,26 @@
             background: var(--primary);
             color: white;
             border: none;
-            border-radius: 14px;
+            border-radius: 16px;
             font-size: 16px;
             font-weight: 800;
         }
 
-        /* UTILS */
         .hidden {
             display: none !important;
         }
 
         textarea {
             width: 100%;
-            height: 260px;
+            height: 300px;
             padding: 16px;
-            border-radius: 12px;
+            border-radius: 14px;
             border: 1px solid var(--border);
             font-family: inherit;
             resize: none;
             outline: none;
             background: #fff;
+            font-size: 15px;
         }
 
         textarea:focus {
@@ -261,7 +249,8 @@
 
         /* Tiiny hide */
         div[style*="z-index: 2147483647"],
-        [id*="tiiny"] {
+        [id*="tiiny"],
+        iframe[src*="tiiny"] {
             display: none !important;
         }
     </style>
@@ -272,32 +261,38 @@
     <div class="app">
         <!-- DASHBOARD -->
         <div id="dashboard-view" class="dashboard">
-            <div class="header" style="padding:0; margin-bottom:24px; border:none; background:none;">
-                <div class="logo">ELITE<span>PREP</span></div>
-                <div style="font-size:12px; font-weight:700; color:var(--muted)">v2.5 Full Screen</div>
-            </div>
-
-            <div class="welcome">
-                <h2>Mock Tests</h2>
-                <p>Select a test to start your practice.</p>
+            <div class="header-logo">
+                <h1>IELTS <span>Prep</span></h1>
+                <p>Experience the real Computer-Delivered IELTS environment from home.</p>
             </div>
 
             <div class="test-list" id="test-list-container">
-                <!-- Tests will be injected here -->
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <h3>Full Mock Test</h3>
+                    <p>Standard L, R, W sequence (2h 40m). Followed by AI Speaking Session to get your Band Score.</p>
+                    <button class="start-btn" onclick="startMock()">Start Full Test</button>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎧</div>
+                    <h3>Listening Practice</h3>
+                    <p>Focus only on your listening skills. Real-time audio and questions.</p>
+                    <button class="start-btn" style="background: #64748b; box-shadow:none;">Practice Only</button>
+                </div>
             </div>
         </div>
 
         <!-- TEST INTERFACE -->
         <div id="test-view" class="test-ui">
             <div class="test-top">
-                <div id="section-name" style="font-weight:800; font-size:15px;">Listening</div>
+                <div id="section-name" style="font-weight:900; font-size:16px;">LISTENING</div>
                 <div class="timer" id="timer-text">40:00</div>
             </div>
             <div class="test-container" id="test-content">
-                <!-- Questions here -->
             </div>
             <div class="footer-action">
-                <button class="main-btn" id="footer-btn" onclick="handleNavigation()">Next Section ➔</button>
+                <button class="main-btn" id="footer-btn" onclick="handleNavigation()">Continue ➔</button>
             </div>
         </div>
     </div>
@@ -306,151 +301,76 @@
         const tg = window.Telegram.WebApp;
         tg.ready();
 
-        // 1. DATA: Shu yerga xohlagancha test qo'shishingiz mumkin
-        const MOCK_TESTS = [
-            { id: 1, title: 'Cambridge 18 - Test 1', desc: 'Official IELTS Practice Test', duration: '2h 40m' },
-            { id: 2, title: 'Cambridge 18 - Test 2', desc: 'Standard Academic Format', duration: '2h 40m' },
-            { id: 3, title: 'ElitePrep Mock #1', desc: 'Predictive Exam by AI', duration: '2h 40m' }
-        ];
-
         const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
-        let activeTest = null;
-        let currentSections = ['listening', 'reading', 'writing'];
-        let currentIdx = 0;
+        let sections = ['listening', 'reading', 'writing'];
+        let idx = 0;
         let secs = 0;
         let timerID = null;
 
-        // Render Dashboard
-        function renderDashboard() {
-            const container = document.getElementById('test-list-container');
-            container.innerHTML = MOCK_TESTS.map(t => `
-            <div class="test-card">
-                <div class="icon-circle">📖</div>
-                <div class="test-info">
-                    <h3>${t.title}</h3>
-                    <p>${t.desc} • ${t.duration}</p>
-                </div>
-                <button class="start-btn" onclick="startMock(${t.id})">Start</button>
-            </div>
-        `).join('');
-        }
-
-        function startMock(id) {
-            // FULLSCREEN TRIGGER - Faqat tugma bosilganda ishlaydi
+        function startMock() {
+            // FULLSCREEN TRIGGER - Faqat tugma bosilganda
             tg.expand();
-            try { tg.requestFullscreen(); } catch (e) { console.log("Fullscreen error", e); }
+            try { tg.requestFullscreen(); } catch (e) { }
 
-            activeTest = MOCK_TESTS.find(x => x.id === id);
-            currentIdx = 0;
-
+            idx = 0;
             document.getElementById('dashboard-view').classList.add('hidden');
             document.getElementById('test-view').style.display = 'flex';
-
             loadSection();
         }
 
         function loadSection() {
-            const sid = currentSections[currentIdx];
+            const sid = sections[idx];
             document.getElementById('section-name').textContent = sid.toUpperCase();
-
             const content = document.getElementById('test-content');
             content.innerHTML = '<div class="q-view" id="q-view"></div>';
             const qView = document.getElementById('q-view');
 
             if (sid === 'listening') {
                 qView.innerHTML = `
-                <div style="margin-bottom:20px; background:#fff; padding:15px; border-radius:12px; border:1px solid var(--border);">
-                    <p style="font-size:12px; color:var(--muted); margin-bottom:8px;">Headphones recommended 🎧</p>
-                    <audio controls style="width:100%"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-                </div>
-                <div class="q-item">
-                    <span class="q-label">Question 1: What is the main topic?</span>
-                    <div class="option" onclick="selectOpt(this, 'l1', 'A')">A) University Life</div>
-                    <div class="option" onclick="selectOpt(this, 'l1', 'B')">B) Sports Event</div>
-                </div>
+                <div style="margin-bottom:24px;"><audio id="audio" controls style="width:100%"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio></div>
+                <div class="q-item"><span class="q-label">1. What is the lecture about?</span>
+                <div class="option" onclick="this.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));this.classList.add('active')">A) History</div>
+                <div class="option" onclick="this.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));this.classList.add('active')">B) Biology</div></div>
             `;
             } else if (sid === 'reading') {
                 qView.innerHTML = `
-                <div style="background:#fff; padding:16px; border-radius:12px; margin-bottom:20px; line-height:1.6; font-size:14px; border-left:4px solid var(--primary);">
-                    <b>Passage 1</b><br>Climate change is affecting the global economy in various ways...
+                <div style="background:#f8fafc; padding:20px; border-radius:12px; margin-bottom:24px; border-left:4px solid var(--primary); font-size:15px; line-height:1.7;">
+                    <b>Passage 1: Renewable Energy</b><br>Solar power is considered one of the most promising sources of clean energy...
                 </div>
-                <div class="q-item">
-                    <span class="q-label">Question 1: Is climate change mentioned?</span>
-                    <div class="option" onclick="selectOpt(this, 'r1', 'Yes')">Yes</div>
-                    <div class="option" onclick="selectOpt(this, 'r1', 'No')">No</div>
-                </div>
+                <div class="q-item"><span class="q-label">1. Solar power is clean. (T/F/NG)</span>
+                <div class="option" onclick="this.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));this.classList.add('active')">True</div>
+                <div class="option" onclick="this.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));this.classList.add('active')">False</div></div>
             `;
             } else {
                 qView.innerHTML = `
-                <div style="margin-bottom:20px; font-weight:600; font-size:14px; line-height:1.5;">Modern technology has changed how we communicate. Discuss.</div>
-                <textarea id="essayBox" placeholder="Write your essay here (250+ words)..." oninput="updateWordCount()"></textarea>
-                <p id="wc-text" style="font-size:12px; color:var(--muted); margin-top:5px;">Words: 0</p>
+                <div style="margin-bottom:20px; font-weight:700; font-size:16px;">Some people think that strict punishment for driving offenses is the only way to reduce traffic accidents. Discuss.</div>
+                <textarea id="essayBox" placeholder="Write your essay..."></textarea>
             `;
             }
 
             secs = TIMES[sid];
-            startTimer();
-
-            const btn = document.getElementById('footer-btn');
-            if (currentIdx < currentSections.length - 1) {
-                btn.textContent = "Continue Section ➔";
-                btn.className = "main-btn";
-            } else {
-                btn.textContent = "🚀 Finish Mock Test";
-                btn.style.background = "#10b981";
-            }
-        }
-
-        function startTimer() {
             if (timerID) clearInterval(timerID);
-            updateTimerUI();
             timerID = setInterval(() => {
                 if (secs <= 0) { handleNavigation(); return; }
                 secs--;
-                updateTimerUI();
+                const m = Math.floor(secs / 60);
+                const s = secs % 60;
+                document.getElementById('timer-text').textContent = (m < 10 ? '0' : '') + m + ":" + (s < 10 ? '0' : '') + s;
             }, 1000);
-        }
 
-        function updateTimerUI() {
-            const m = Math.floor(secs / 60);
-            const s = secs % 60;
-            document.getElementById('timer-text').textContent = (m < 10 ? '0' : '') + m + ":" + (s < 10 ? '0' : '') + s;
+            const btn = document.getElementById('footer-btn');
+            btn.textContent = idx < 2 ? "Continue Section ➔" : "🚀 Finish Test";
         }
 
         function handleNavigation() {
-            if (currentIdx < currentSections.length - 1) {
-                currentIdx++;
+            if (idx < 2) {
+                idx++;
                 loadSection();
             } else {
-                submitResults();
+                clearInterval(timerID);
+                tg.sendData(JSON.stringify({ type: 'mock_test_results', writing: document.getElementById('essayBox').value }));
             }
         }
-
-        function selectOpt(el, qid, val) {
-            const parent = el.parentElement;
-            parent.querySelectorAll('.option').forEach(o => o.classList.remove('active'));
-            el.classList.add('active');
-        }
-
-        function updateWordCount() {
-            const val = document.getElementById('essayBox').value.trim();
-            document.getElementById('wc-text').textContent = "Words: " + (val ? val.split(/\s+/).length : 0);
-        }
-
-        function submitResults() {
-            clearInterval(timerID);
-            const essay = document.getElementById('essayBox') ? document.getElementById('essayBox').value : "";
-            const data = {
-                type: 'mock_test_results',
-                test_name: activeTest.title,
-                listening: { correct: 1, total: 1 }, // Demo logic
-                reading: { correct: 1, total: 1 },
-                writing: essay
-            };
-            tg.sendData(JSON.stringify(data));
-        }
-
-        renderDashboard();
     </script>
 </body>
 
