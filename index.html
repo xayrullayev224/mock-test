@@ -296,25 +296,86 @@
         tg.ready();
 
         // 🏆 FULL 40-40 DATA STRUCTURE
-        const MOCK_DATA = {
-            listening: {
-                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-                questions: Array.from({ length: 40 }, (_, i) => ({ id: i + 1, text: `Listening Question ${i + 1}: What happened next?`, options: ["A) Decision", "B) Action", "C) Plan", "D) Result"], ans: "A" }))
-            },
-            reading: {
-                passages: [
-                    { title: "Passage 1: Underwater Exploration", text: "Humanity has always been fascinated by the deep oceans...", qs: 13 },
-                    { title: "Passage 2: The Future of AI", text: "AI is reshaping how we work and live...", qs: 13 },
-                    { title: "Passage 3: History of Tea", text: "Tea culture dates back thousands of years...", qs: 14 }
-                ],
-                questions: Array.from({ length: 40 }, (_, i) => ({ id: i + 1, text: `Reading Question ${i + 1}: Statement is (T/F/NG)`, options: ["True", "False", "Not Given"], ans: "True" }))
-            },
-            writing: {
-                prompt: "<b>Writing Task 2</b><br><br>Global warming is the biggest threat to humanity. To what extent do you agree?"
-            }
-        };
+        const MOCK_DATA = Since there are no specific questions for the reading and listening sections provided in the prompt, I'll create some sample questions based on the given texts and audio transcripts. Please note that these questions are not actual IELTS test questions but rather examples created for demonstration purposes.
 
-        const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
+
+{
+  "listening": {
+    "audio": "https://example.com/ielts-listening-audio.mp3",
+    "questions": [
+      {
+        "id": 1,
+        "text": "What is the main purpose of the survey being conducted by the man?",
+        "options": ["To gather information about transport", "To promote a new product", "To conduct market research"],
+        "ans": "To gather information about transport"
+      },
+      {
+        "id": 2,
+        "text": "How does Sadie usually travel to the city centre?",
+        "options": ["By car", "By bus", "By train"],
+        "ans": "By bus"
+      },
+      {
+        "id": 3,
+        "text": "What is the minimum age requirement to volunteer for ACE?",
+        "options": ["16", "18", "21"],
+        "ans": "16"
+      },
+      {
+        "id": 4,
+        "text": "What type of activity does ACE need volunteers for, which involves working with children?",
+        "options": ["Litter collection", "Fundraising", "Helping children learn about staying healthy"],
+        "ans": "Helping children learn about staying healthy"
+      },
+      {
+        "id": 5,
+        "text": "What is the speaker's message to the audience regarding the job market?",
+        "options": ["It's highly competitive", "It's easy to get a job", "It's not relevant to their field of study"],
+        "ans": "It's highly competitive"
+      }
+    ]
+  },
+  "reading": {
+    "passage": "Urban farming In Paris, urban farmers are trying a soil-free approach to agriculture that uses less space and fewer resources... (insert the entire passage here)",
+    "questions": [
+      {
+        "id": 1,
+        "text": "What is the main topic of the passage?",
+        "options": ["Urban farming", "Space junk", "Forest management"],
+        "ans": "Urban farming"
+      },
+      {
+        "id": 2,
+        "text": "According to Pascal Hardy, what percentage of food consumption could be targeted by urban farming?",
+        "options": ["1-5%", "5-10%", "10-20%"],
+        "ans": "5-10%"
+      },
+      {
+        "id": 3,
+        "text": "What is the advantage of produce grown using the soil-free method?",
+        "options": ["It travels a long distance to reach the consumer", "It is treated with many pesticides", "It is produced locally and has a lower carbon footprint"],
+        "ans": "It is produced locally and has a lower carbon footprint"
+      },
+      {
+        "id": 4,
+        "text": "What is the term used to describe the practice of removing high-quality trees and leaving behind low-use trees?",
+        "options": ["High-grading", "Low-grading", "Selective cutting"],
+        "ans": "High-grading"
+      },
+      {
+        "id": 5,
+        "text": "What is the purpose of a Timber Stand Improvement (TSI) Cut?",
+        "options": ["To remove all mature trees", "To remove low-use trees and promote healthy growth", "To harvest trees for timber"],
+        "ans": "To remove low-use trees and promote healthy growth"
+      }
+    ]
+  }
+}
+
+
+Please note that you should replace the "https://example.com/ielts-listening-audio.mp3" URL with the actual audio file URL. Also, the questions and answers provided are just examples and may not be accurate or suitable for actual IELTS testing purposes.;
+
+    const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
         let currentSections = ['listening', 'reading', 'writing'];
         let idx = 0;
         let secs = 0;
