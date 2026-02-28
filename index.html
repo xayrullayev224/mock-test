@@ -5,20 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ElitePrep — IELTS Station</title>
+    <title>ElitePrep IELTS — Mock Center</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <style>
         :root {
             --primary: #e11d48;
-            /* IELTS Red */
-            --primary-dark: #be123c;
-            --bg: #f8fafc;
-            --card-bg: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
+            --bg: #fdfdfd;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #f1f5f9;
         }
 
         * {
@@ -31,7 +28,7 @@
         body {
             font-family: 'Outfit', sans-serif;
             background: var(--bg);
-            color: var(--text-main);
+            color: var(--text);
             height: 100vh;
             height: 100dvh;
             overflow: hidden;
@@ -39,235 +36,232 @@
             width: 100%;
         }
 
-        .app-container {
+        .app {
             display: flex;
             flex-direction: column;
             height: 100%;
             width: 100%;
         }
 
-        /* ===== HOME SCREEN / DASHBOARD ===== */
+        /* HEADER */
+        .header {
+            padding: 20px 16px;
+            background: white;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 900;
+            font-size: 20px;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+
+        .logo span {
+            color: var(--text);
+        }
+
+        /* DASHBOARD */
         .dashboard {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            background-image:
-                radial-gradient(circle at 2px 2px, rgba(225, 29, 72, 0.05) 1px, transparent 0);
-            background-size: 24px 24px;
+            padding: 20px 16px;
+            background-image: radial-gradient(#e11d4810 1px, transparent 1px);
+            background-size: 20px 20px;
         }
 
-        .header-section {
-            text-align: center;
-            margin-bottom: 8px;
+        .welcome {
+            margin-bottom: 24px;
         }
 
-        .header-section h1 {
+        .welcome h2 {
             font-size: 24px;
-            font-weight: 900;
-            color: var(--text-main);
-            margin-bottom: 8px;
+            font-weight: 800;
+            margin-bottom: 4px;
         }
 
-        .header-section span {
-            color: var(--primary);
-        }
-
-        .header-section p {
+        .welcome p {
+            color: var(--muted);
             font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.5;
         }
 
-        .exam-cards {
+        .test-list {
             display: grid;
             gap: 16px;
         }
 
-        .exam-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+        .test-card {
+            background: white;
+            border: 1.5px solid var(--border);
             border-radius: 20px;
-            padding: 20px;
+            padding: 18px;
             display: flex;
-            flex-direction: column;
-            gap: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s, border-color 0.2s;
+            align-items: center;
+            gap: 16px;
+            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         }
 
-        .exam-card:active {
-            transform: scale(0.98);
+        .test-card:active {
+            transform: scale(0.97);
             border-color: var(--primary);
         }
 
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            background: rgba(225, 29, 72, 0.1);
-            border-radius: 12px;
+        .icon-circle {
+            width: 54px;
+            height: 54px;
+            background: #fff1f2;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 24px;
         }
 
-        .card-info h3 {
-            font-size: 18px;
+        .test-info {
+            flex: 1;
+        }
+
+        .test-info h3 {
+            font-size: 16px;
             font-weight: 700;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
-        .card-info p {
-            font-size: 13px;
-            color: var(--text-muted);
+        .test-info p {
+            font-size: 12px;
+            color: var(--muted);
         }
 
-        .start-badge {
-            align-self: flex-start;
-            padding: 6px 12px;
+        .start-btn {
             background: var(--primary);
             color: white;
-            border-radius: 100px;
-            font-size: 12px;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 10px;
             font-weight: 700;
-            text-transform: uppercase;
+            font-size: 13px;
         }
 
-        /* ===== TEST INTERFACE ===== */
+        /* TEST UI */
         .test-ui {
             display: none;
             flex-direction: column;
             height: 100%;
             background: white;
+            z-index: 1000;
+            position: fixed;
+            inset: 0;
         }
 
-        .test-header {
+        .test-top {
             padding: 12px 16px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
-            z-index: 10;
         }
 
-        .test-header .title {
-            font-weight: 800;
-            font-size: 16px;
-        }
-
-        .test-header .timer {
+        .timer {
             font-family: monospace;
-            font-weight: 800;
-            background: #fee2e2;
+            font-weight: 900;
             color: var(--primary);
+            background: #fff1f2;
             padding: 4px 10px;
             border-radius: 6px;
-            font-size: 14px;
         }
 
-        .test-content {
+        .test-container {
             flex: 1;
             overflow-y: auto;
             padding: 16px;
             background: #f8fafc;
         }
 
-        .section-card {
+        .q-view {
             background: white;
             border-radius: 16px;
-            border: 1px solid var(--border);
             padding: 20px;
+            border: 1px solid var(--border);
             margin-bottom: 80px;
         }
 
-        /* IELTS Elements Styling */
-        .q-box {
-            margin-bottom: 16px;
-            padding: 16px;
-            background: #f1f5f9;
-            border-radius: 12px;
+        .q-item {
+            margin-bottom: 20px;
         }
 
-        .q-text {
-            font-weight: 600;
+        .q-label {
+            font-weight: 700;
+            font-size: 14px;
             margin-bottom: 12px;
-            font-size: 14px;
+            display: block;
         }
 
-        .opt-label {
-            display: block;
-            padding: 12px;
-            margin-bottom: 8px;
-            background: white;
+        .option {
+            padding: 14px;
             border: 1px solid var(--border);
-            border-radius: 10px;
-            cursor: pointer;
+            border-radius: 12px;
+            margin-bottom: 8px;
             font-size: 14px;
+            cursor: pointer;
             transition: 0.2s;
         }
 
-        .opt-label.selected {
-            border-color: var(--primary);
+        .option.active {
             background: #fff1f2;
+            border-color: var(--primary);
+            font-weight: 600;
         }
 
-        input[type="radio"] {
-            display: none;
-        }
-
-        .btn-submit {
+        .footer-action {
             position: fixed;
-            bottom: 16px;
-            left: 16px;
-            right: 16px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px;
+            background: white;
+            border-top: 1px solid var(--border);
+            box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.02);
+        }
+
+        .main-btn {
+            width: 100%;
+            padding: 16px;
             background: var(--primary);
             color: white;
             border: none;
-            padding: 16px;
             border-radius: 14px;
             font-size: 16px;
             font-weight: 800;
-            box-shadow: 0 10px 15px -3px rgba(225, 29, 72, 0.3);
         }
 
-        .passage-text {
-            font-size: 14px;
-            line-height: 1.7;
-            color: #334155;
-            padding: 16px;
-            background: #fdfdfd;
-            border-left: 4px solid var(--primary);
-            margin-bottom: 20px;
+        /* UTILS */
+        .hidden {
+            display: none !important;
         }
 
         textarea {
             width: 100%;
-            height: 300px;
+            height: 260px;
             padding: 16px;
-            border: 1px solid var(--border);
             border-radius: 12px;
+            border: 1px solid var(--border);
             font-family: inherit;
-            font-size: 15px;
             resize: none;
             outline: none;
+            background: #fff;
         }
 
         textarea:focus {
             border-color: var(--primary);
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        /* Tiiny Host Banner Hide */
+        /* Tiiny hide */
         div[style*="z-index: 2147483647"],
-        [id*="tiiny"],
-        iframe[src*="tiiny"] {
+        [id*="tiiny"] {
             display: none !important;
         }
     </style>
@@ -275,202 +269,188 @@
 
 <body>
 
-    <div class="app-container">
-
-        <!-- DASHBOARD SCALE -->
-        <div class="dashboard" id="home-screen">
-            <div class="header-section">
-                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="80"
-                    style="margin-bottom: 16px;">
-                <h1>IELTS <span>Station</span></h1>
-                <p>Experience the real Computer-Delivered IELTS environment from home.</p>
+    <div class="app">
+        <!-- DASHBOARD -->
+        <div id="dashboard-view" class="dashboard">
+            <div class="header" style="padding:0; margin-bottom:24px; border:none; background:none;">
+                <div class="logo">ELITE<span>PREP</span></div>
+                <div style="font-size:12px; font-weight:700; color:var(--muted)">v2.5 Full Screen</div>
             </div>
 
-            <div class="exam-cards">
-                <!-- FULL MOCK -->
-                <div class="exam-card" onclick="initTest('mock')">
-                    <div class="card-icon">📚</div>
-                    <div class="card-info">
-                        <h3>Full Mock Test</h3>
-                        <p>Standard L, R, W sequence (2h 40m). AI Speaking follows.</p>
-                    </div>
-                    <div class="start-badge">Start Full Test</div>
-                </div>
-
-                <!-- LISTENING -->
-                <div class="exam-card" onclick="initTest('listening')">
-                    <div class="card-icon">🎧</div>
-                    <div class="card-info">
-                        <h3>Listening Practice</h3>
-                        <p>Improve your listening skills. 40 minutes session.</p>
-                    </div>
-                    <div class="start-badge" style="background: #64748b;">Practice Only</div>
-                </div>
-
-                <!-- READING -->
-                <div class="exam-card" onclick="initTest('reading')">
-                    <div class="card-icon">📖</div>
-                    <div class="card-info">
-                        <h3>Reading Practice</h3>
-                        <p>Master reading passages. 60 minutes session.</p>
-                    </div>
-                    <div class="start-badge" style="background: #64748b;">Practice Only</div>
-                </div>
+            <div class="welcome">
+                <h2>Mock Tests</h2>
+                <p>Select a test to start your practice.</p>
             </div>
 
-            <div style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: auto;">
-                Developed by ElitePrep AI • v2.0
+            <div class="test-list" id="test-list-container">
+                <!-- Tests will be injected here -->
             </div>
         </div>
 
-        <!-- TEST UI -->
-        <div class="test-ui" id="test-screen">
-            <div class="test-header">
-                <div class="title" id="section-title">Listening Section</div>
-                <div class="timer" id="timer-display">40:00</div>
+        <!-- TEST INTERFACE -->
+        <div id="test-view" class="test-ui">
+            <div class="test-top">
+                <div id="section-name" style="font-weight:800; font-size:15px;">Listening</div>
+                <div class="timer" id="timer-text">40:00</div>
             </div>
-
-            <div class="test-content">
-                <!-- Dynamic Content based on section -->
-                <div id="section-container"></div>
+            <div class="test-container" id="test-content">
+                <!-- Questions here -->
             </div>
-
-            <button class="btn-submit" id="next-btn" onclick="handleFlow()">Continue ➔</button>
+            <div class="footer-action">
+                <button class="main-btn" id="footer-btn" onclick="handleNavigation()">Next Section ➔</button>
+            </div>
         </div>
-
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
-        tg.expand();
 
-        // Data Mapping
+        // 1. DATA: Shu yerga xohlagancha test qo'shishingiz mumkin
+        const MOCK_TESTS = [
+            { id: 1, title: 'Cambridge 18 - Test 1', desc: 'Official IELTS Practice Test', duration: '2h 40m' },
+            { id: 2, title: 'Cambridge 18 - Test 2', desc: 'Standard Academic Format', duration: '2h 40m' },
+            { id: 3, title: 'ElitePrep Mock #1', desc: 'Predictive Exam by AI', duration: '2h 40m' }
+        ];
+
         const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
-        let testMode = 'mock'; // 'mock', 'listening', 'reading'
-        let currentSections = [];
-        let sectionIdx = 0;
-        let timerVal = 0;
-        let timerInt = null;
+        let activeTest = null;
+        let currentSections = ['listening', 'reading', 'writing'];
+        let currentIdx = 0;
+        let secs = 0;
+        let timerID = null;
 
-        function initTest(mode) {
-            testMode = mode;
-            if (mode === 'mock') currentSections = ['listening', 'reading', 'writing'];
-            else currentSections = [mode];
+        // Render Dashboard
+        function renderDashboard() {
+            const container = document.getElementById('test-list-container');
+            container.innerHTML = MOCK_TESTS.map(t => `
+            <div class="test-card">
+                <div class="icon-circle">📖</div>
+                <div class="test-info">
+                    <h3>${t.title}</h3>
+                    <p>${t.desc} • ${t.duration}</p>
+                </div>
+                <button class="start-btn" onclick="startMock(${t.id})">Start</button>
+            </div>
+        `).join('');
+        }
 
-            sectionIdx = 0;
-            document.getElementById('home-screen').classList.add('hidden');
-            document.getElementById('test-screen').style.display = 'flex';
+        function startMock(id) {
+            // FULLSCREEN TRIGGER - Faqat tugma bosilganda ishlaydi
+            tg.expand();
+            try { tg.requestFullscreen(); } catch (e) { console.log("Fullscreen error", e); }
+
+            activeTest = MOCK_TESTS.find(x => x.id === id);
+            currentIdx = 0;
+
+            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('test-view').style.display = 'flex';
 
             loadSection();
         }
 
         function loadSection() {
-            const sid = currentSections[sectionIdx];
-            document.getElementById('section-title').textContent = sid.toUpperCase() + " Section";
+            const sid = currentSections[currentIdx];
+            document.getElementById('section-name').textContent = sid.toUpperCase();
 
-            const container = document.getElementById('section-container');
-            container.innerHTML = ""; // Clear
-
-            const card = document.createElement('div');
-            card.className = "section-card";
+            const content = document.getElementById('test-content');
+            content.innerHTML = '<div class="q-view" id="q-view"></div>';
+            const qView = document.getElementById('q-view');
 
             if (sid === 'listening') {
-                card.innerHTML = `
-                <div class="card-title">🎧 Answer following audio</div>
-                <audio controls style="width:100%; margin:20px 0;"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
-                <div class="q-box" data-ans="B">
-                    <p class="q-text">1. What is the focus of the interview?</p>
-                    <label class="opt-label"><input type="radio" name="l1" value="A" onclick="checkOpt(this)"> A) Travel plans</label>
-                    <label class="opt-label"><input type="radio" name="l1" value="B" onclick="checkOpt(this)"> B) Academic research</label>
+                qView.innerHTML = `
+                <div style="margin-bottom:20px; background:#fff; padding:15px; border-radius:12px; border:1px solid var(--border);">
+                    <p style="font-size:12px; color:var(--muted); margin-bottom:8px;">Headphones recommended 🎧</p>
+                    <audio controls style="width:100%"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+                </div>
+                <div class="q-item">
+                    <span class="q-label">Question 1: What is the main topic?</span>
+                    <div class="option" onclick="selectOpt(this, 'l1', 'A')">A) University Life</div>
+                    <div class="option" onclick="selectOpt(this, 'l1', 'B')">B) Sports Event</div>
                 </div>
             `;
             } else if (sid === 'reading') {
-                card.innerHTML = `
-                <div class="passage-text">
-                    <b>The History of AI</b><br>Artificial Intelligence originated in 1950s. Alan Turing proposed the Turing Test to measure intelligence...
+                qView.innerHTML = `
+                <div style="background:#fff; padding:16px; border-radius:12px; margin-bottom:20px; line-height:1.6; font-size:14px; border-left:4px solid var(--primary);">
+                    <b>Passage 1</b><br>Climate change is affecting the global economy in various ways...
                 </div>
-                <div class="q-box" data-ans="True">
-                    <p class="q-text">1. Alan Turing is mentioned in the text. (T/F/NG)</p>
-                    <label class="opt-label"><input type="radio" name="r1" value="True" onclick="checkOpt(this)"> True</label>
-                    <label class="opt-label"><input type="radio" name="r1" value="False" onclick="checkOpt(this)"> False</label>
+                <div class="q-item">
+                    <span class="q-label">Question 1: Is climate change mentioned?</span>
+                    <div class="option" onclick="selectOpt(this, 'r1', 'Yes')">Yes</div>
+                    <div class="option" onclick="selectOpt(this, 'r1', 'No')">No</div>
                 </div>
             `;
             } else {
-                card.innerHTML = `
-                <div class="card-title">✍️ Writing Task 2</div>
-                <div class="passage-text">Modern technology has made us more isolated. To what extent do you agree?</div>
-                <textarea id="essay" oninput="countWords(this)" placeholder="Start typing..."></textarea>
-                <div class="wc">Words: <b id="wordCount">0</b></div>
+                qView.innerHTML = `
+                <div style="margin-bottom:20px; font-weight:600; font-size:14px; line-height:1.5;">Modern technology has changed how we communicate. Discuss.</div>
+                <textarea id="essayBox" placeholder="Write your essay here (250+ words)..." oninput="updateWordCount()"></textarea>
+                <p id="wc-text" style="font-size:12px; color:var(--muted); margin-top:5px;">Words: 0</p>
             `;
             }
 
-            container.appendChild(card);
+            secs = TIMES[sid];
+            startTimer();
 
-            // Start Timer
-            timerVal = TIMES[sid];
-            runTimer();
-
-            // Button Label
-            const btn = document.getElementById('next-btn');
-            if (sectionIdx < currentSections.length - 1) btn.textContent = "Continue to Next Section ➔";
-            else btn.textContent = "🚀 Finish and Submit";
+            const btn = document.getElementById('footer-btn');
+            if (currentIdx < currentSections.length - 1) {
+                btn.textContent = "Continue Section ➔";
+                btn.className = "main-btn";
+            } else {
+                btn.textContent = "🚀 Finish Mock Test";
+                btn.style.background = "#10b981";
+            }
         }
 
-        function runTimer() {
-            if (timerInt) clearInterval(timerInt);
-            updateTimerDisplay();
-            timerInt = setInterval(() => {
-                if (timerVal <= 0) {
-                    handleFlow();
-                    return;
-                }
-                timerVal--;
-                updateTimerDisplay();
+        function startTimer() {
+            if (timerID) clearInterval(timerID);
+            updateTimerUI();
+            timerID = setInterval(() => {
+                if (secs <= 0) { handleNavigation(); return; }
+                secs--;
+                updateTimerUI();
             }, 1000);
         }
 
-        function updateTimerDisplay() {
-            const m = Math.floor(timerVal / 60);
-            const s = timerVal % 60;
-            document.getElementById('timer-display').textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
+        function updateTimerUI() {
+            const m = Math.floor(secs / 60);
+            const s = secs % 60;
+            document.getElementById('timer-text').textContent = (m < 10 ? '0' : '') + m + ":" + (s < 10 ? '0' : '') + s;
         }
 
-        function handleFlow() {
-            if (sectionIdx < currentSections.length - 1) {
-                sectionIdx++;
+        function handleNavigation() {
+            if (currentIdx < currentSections.length - 1) {
+                currentIdx++;
                 loadSection();
             } else {
-                finishTest();
+                submitResults();
             }
         }
 
-        function checkOpt(el) {
-            const parent = el.closest('.q-box');
-            parent.querySelectorAll('.opt-label').forEach(l => l.classList.remove('selected'));
-            el.parentElement.classList.add('selected');
+        function selectOpt(el, qid, val) {
+            const parent = el.parentElement;
+            parent.querySelectorAll('.option').forEach(o => o.classList.remove('active'));
+            el.classList.add('active');
         }
 
-        function countWords(el) {
-            const c = el.value.trim() ? el.value.trim().split(/\s+/).length : 0;
-            document.getElementById('wordCount').textContent = c;
+        function updateWordCount() {
+            const val = document.getElementById('essayBox').value.trim();
+            document.getElementById('wc-text').textContent = "Words: " + (val ? val.split(/\s+/).length : 0);
         }
 
-        function finishTest() {
-            clearInterval(timerInt);
-            const essay = document.getElementById('essay') ? document.getElementById('essay').value : "";
-
-            // Calculate scores (dummy for now)
-            const results = {
+        function submitResults() {
+            clearInterval(timerID);
+            const essay = document.getElementById('essayBox') ? document.getElementById('essayBox').value : "";
+            const data = {
                 type: 'mock_test_results',
-                mode: testMode,
-                listening: { correct: 1, total: 1 },
+                test_name: activeTest.title,
+                listening: { correct: 1, total: 1 }, // Demo logic
                 reading: { correct: 1, total: 1 },
                 writing: essay
             };
-
-            tg.sendData(JSON.stringify(results));
+            tg.sendData(JSON.stringify(data));
         }
+
+        renderDashboard();
     </script>
 </body>
 
