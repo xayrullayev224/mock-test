@@ -72,30 +72,13 @@
             margin-top: 5px;
         }
 
-        .test-list {
-            display: grid;
-            gap: 20px;
-        }
-
         .card {
             background: white;
             border: 1.5px solid var(--border);
             border-radius: 24px;
             padding: 24px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-            transition: 0.3s;
-        }
-
-        .card-icon {
-            width: 50px;
-            height: 50px;
-            background: #fff1f2;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 16px;
+            margin-top: 20px;
         }
 
         .card h3 {
@@ -112,21 +95,18 @@
         }
 
         .start-btn {
+            width: 100%;
             background: var(--primary);
             color: white;
             border: none;
-            padding: 12px 24px;
-            border-radius: 100px;
+            padding: 16px;
+            border-radius: 16px;
             font-weight: 800;
-            font-size: 14px;
+            font-size: 16px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
-            border: none;
             cursor: pointer;
         }
 
-        /* TEST UI */
         .test-ui {
             display: none;
             flex-direction: column;
@@ -170,12 +150,6 @@
             margin-bottom: 80px;
         }
 
-        .q-item {
-            margin-bottom: 28px;
-            border-bottom: 1px solid #f1f5f9;
-            padding-bottom: 20px;
-        }
-
         .q-label {
             font-weight: 700;
             font-size: 15px;
@@ -190,12 +164,8 @@
             border-radius: 14px;
             margin-bottom: 8px;
             font-size: 14px;
-            cursor: pointer;
-            transition: 0.2s;
             background: #fff;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            cursor: pointer;
         }
 
         .option.active {
@@ -210,7 +180,6 @@
             padding: 20px;
             border-radius: 12px;
             margin-bottom: 24px;
-            font-size: 15px;
             line-height: 1.8;
             border-left: 5px solid var(--primary);
         }
@@ -234,7 +203,6 @@
             border-radius: 16px;
             font-size: 16px;
             font-weight: 800;
-            cursor: pointer;
         }
 
         textarea {
@@ -248,10 +216,8 @@
             outline: none;
             background: #fff;
             font-size: 16px;
-            line-height: 1.6;
         }
 
-        /* Tiiny hide */
         div[style*="z-index: 2147483647"],
         [id*="tiiny"],
         iframe[src*="tiiny"] {
@@ -263,23 +229,18 @@
 <body>
 
     <div class="app">
-        <!-- DASHBOARD -->
         <div id="dashboard-view" class="dashboard">
             <div class="header-logo">
                 <h1>IELTS <span>Prep</span></h1>
-                <p>The Ultimate 40:40 Practice Simulation.</p>
+                <p>Full 40:40 Mock Test Simulation.</p>
             </div>
-            <div class="test-list">
-                <div class="card">
-                    <div class="card-icon">📚</div>
-                    <h3>Cambridge 18 Full Test</h3>
-                    <p>Real L (40), R (40), W sequence + Speaking Session.</p><button class="start-btn"
-                        onclick="startMock()">Start Full Test</button>
-                </div>
+            <div class="card">
+                <h3>Ready for Cambridge Mock?</h3>
+                <p id="test-info-text">Listening (40), Reading (40), Writing. Accurate AI Scoring.</p>
+                <button class="start-btn" onclick="safeStart()">Start Full Test</button>
             </div>
         </div>
 
-        <!-- TEST INTERFACE -->
         <div id="test-view" class="test-ui">
             <div class="test-top">
                 <div id="section-name" style="font-weight:900; font-size:16px; color:var(--primary)">LISTENING</div>
@@ -291,157 +252,226 @@
         </div>
     </div>
 
+    <!-- SAFE DATA STORAGE -->
+    <script id="mock-data-script" type="application/json">
+{
+    "listening": {
+        "audio": "Not provided, as there is no direct URL to the audio file.",
+        "questions": [
+            {
+                "id": 1,
+                "text": "What is the purpose of the survey being conducted by the man?",
+                "options": [
+                    "To understand transport usage",
+                    "To gather information about the speaker",
+                    "To promote a product"
+                ],
+                "ans": "To understand transport usage"
+            },
+            {
+                "id": 2,
+                "text": "What mode of transport does Sadie use to travel to the city centre?",
+                "options": [
+                    "Car",
+                    "Bus",
+                    "Train"
+                ],
+                "ans": "Bus"
+            },
+            {
+                "id": 3,
+                "text": "Why did Sadie stop driving?",
+                "options": [
+                    "Due to parking difficulties and costs",
+                    "Due to lack of time",
+                    "Due to health issues"
+                ],
+                "ans": "Due to parking difficulties and costs"
+            },
+            {
+                "id": 4,
+                "text": "What is the primary reason for Sadie's trip to the city centre today?",
+                "options": [
+                    "Shopping",
+                    "Dentist appointment",
+                    "Meeting a friend"
+                ],
+                "ans": "Dentist appointment"
+            },
+            {
+                "id": 5,
+                "text": "How often does Sadie use her car?",
+                "options": [
+                    "Daily",
+                    "Weekly",
+                    "Rarely"
+                ],
+                "ans": "Rarely"
+            },
+            {
+                "id": 6,
+                "text": "What is the minimum age to volunteer for ACE?",
+                "options": [
+                    "16",
+                    "18",
+                    "21"
+                ],
+                "ans": "16"
+            },
+            {
+                "id": 7,
+                "text": "What type of training is provided to volunteers at ACE?",
+                "options": [
+                    "Online training",
+                    "Face-to-face training",
+                    "Self-study"
+                ],
+                "ans": "Face-to-face training"
+            },
+            {
+                "id": 8,
+                "text": "What is one of the areas where ACE needs volunteers?",
+                "options": [
+                    "Fundraising",
+                    "Litter collection",
+                    "Both"
+                ],
+                "ans": "Both"
+            },
+            {
+                "id": 9,
+                "text": "What is the speaker's message to the students about the job market?",
+                "options": [
+                    "It's competitive, but there are many opportunities",
+                    "It's easy to get a job in the industry",
+                    "It's difficult to get a job in the industry"
+                ],
+                "ans": "It's competitive, but there are many opportunities"
+            },
+            {
+                "id": 10,
+                "text": "What is Chantal's opinion about the speaker's message?",
+                "options": [
+                    "She agrees with the speaker",
+                    "She disagrees with the speaker",
+                    "She is neutral"
+                ],
+                "ans": "She agrees with the speaker, but also thinks the speaker was a bit harsh"
+            }
+        ]
+    },
+    "reading": {
+        "passage": "Urban farming In Paris, urban farmers are trying a soil-free approach to agriculture that uses less space and fewer resources. Could it help cities face the threats to our food supplies? ...",
+        "questions": [
+            {
+                "id": 1,
+                "text": "What is the main idea of the passage?",
+                "options": [
+                    "Urban farming is a new phenomenon",
+                    "Urban farming can help cities face food supply threats",
+                    "Urban farming is only done in Paris"
+                ],
+                "ans": "Urban farming can help cities face food supply threats"
+            },
+            {
+                "id": 2,
+                "text": "What is the name of the urban agriculture consultancy mentioned in the passage?",
+                "options": [
+                    "Agripolis",
+                    "Urban Farming",
+                    "Soil-Free Farming"
+                ],
+                "ans": "Agripolis"
+            },
+            {
+                "id": 3,
+                "text": "What is one of the advantages of the soil-free method of farming mentioned in the passage?",
+                "options": [
+                    "It uses more water",
+                    "It uses more space",
+                    "It produces food with better flavor"
+                ],
+                "ans": "It produces food with better flavor"
+            },
+            {
+                "id": 4,
+                "text": "What is the main difference between the soil-free method of farming and traditional intensive farming?",
+                "options": [
+                    "The soil-free method uses more pesticides",
+                    "The soil-free method uses less water",
+                    "The soil-free method produces more greenhouse gases"
+                ],
+                "ans": "The soil-free method uses less water"
+            },
+            {
+                "id": 5,
+                "text": "What is the purpose of managing low-quality wood in Pennsylvania?",
+                "options": [
+                    "To produce bioenergy",
+                    "To promote sustainable forest management",
+                    "To reduce greenhouse gases"
+                ],
+                "ans": "To promote sustainable forest management"
+            },
+            {
+                "id": 6,
+                "text": "What is a Timber Stand Improvement (TSI) Cut?",
+                "options": [
+                    "A method of cutting down trees to allow for more space and light",
+                    "A method of cutting down trees to produce bioenergy",
+                    "A method of cutting down trees to reduce greenhouse gases"
+                ],
+                "ans": "A method of cutting down trees to allow for more space and light"
+            },
+            {
+                "id": 7,
+                "text": "What is the main concern regarding space junk?",
+                "options": [
+                    "It is a new phenomenon",
+                    "It is a major traffic risk in orbit",
+                    "It is a minor problem"
+                ],
+                "ans": "It is a major traffic risk in orbit"
+            },
+            {
+                "id": 8,
+                "text": "What is one of the ways to reduce space junk?",
+                "options": [
+                    "By launching more satellites",
+                    "By improving methods for assessing what is in orbit",
+                    "By ignoring the problem"
+                ],
+                "ans": "By improving methods for assessing what is in orbit"
+            }
+        ]
+    }
+}
+</script>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
 
-        // 🏆 FULL 40-40 DATA STRUCTURE
-        const MOCK_DATA = Here are the extracted IELTS Reading and Listening questions in a valid JSON structure:
-
-
-{
-  "listening": {
-    "audio": "URL not provided",
-    "questions": [
-      {
-        "id": 1,
-        "text": "What is Sadie's name?",
-        "options": ["Sadie Jones", "Sadie Smith", "Sadie Johnson"],
-        "ans": "Sadie Jones"
-      },
-      {
-        "id": 2,
-        "text": "What is Sadie's date of birth?",
-        "options": ["1990", "1991", "1992"],
-        "ans": "1991"
-      },
-      {
-        "id": 3,
-        "text": "What is Sadie's postcode?",
-        "options": ["DW30 7YZ", "DW30 7XX", "DW30 7YY"],
-        "ans": "DW30 7YZ"
-      },
-      {
-        "id": 4,
-        "text": "How did Sadie travel to the city centre?",
-        "options": ["By bus", "By car", "By train"],
-        "ans": "By bus"
-      },
-      {
-        "id": 5,
-        "text": "What was the main reason for Sadie's trip to the city centre?",
-        "options": ["To go shopping", "To go to the dentist", "To meet a friend"],
-        "ans": "To go to the dentist"
-      },
-      {
-        "id": 6,
-        "text": "How long does it take Sadie to travel to the city centre by bus?",
-        "options": ["20 minutes", "30 minutes", "40 minutes"],
-        "ans": "30 minutes"
-      },
-      {
-        "id": 7,
-        "text": "What is the minimum age to volunteer at ACE?",
-        "options": ["15", "16", "18"],
-        "ans": "16"
-      },
-      {
-        "id": 8,
-        "text": "What type of training is provided to volunteers at ACE?",
-        "options": ["Online training", "Face-to-face training", "No training"],
-        "ans": "Face-to-face training"
-      },
-      {
-        "id": 9,
-        "text": "What is one of the areas where ACE needs volunteers?",
-        "options": ["Fundraising", "Litter collection", "First aid"],
-        "ans": "Fundraising"
-      },
-      {
-        "id": 10,
-        "text": "What is the name of the speaker at the talk about ACE?",
-        "options": ["Chantal", "Hugo", "Not mentioned"],
-        "ans": "Not mentioned"
-      }
-    ]
-  },
-  "reading": {
-    "passage": "Urban farming In Paris, urban farmers are trying a soil-free approach to agriculture that uses less space and fewer resources. Could it help cities face the threats to our food supplies? ...",
-    "questions": [
-      {
-        "id": 1,
-        "text": "What is the main topic of the passage?",
-        "options": ["Urban farming", "Soil-free agriculture", "Food supplies"],
-        "ans": "Urban farming"
-      },
-      {
-        "id": 2,
-        "text": "Where is the world's largest urban rooftop farm located?",
-        "options": ["Paris", "New York", "Tokyo"],
-        "ans": "Paris"
-      },
-      {
-        "id": 3,
-        "text": "What is the name of the engineer and sustainable development consultant who began experimenting with vertical farming?",
-        "options": ["Pascal Hardy", "Jean-Pierre Garnier", "Not mentioned"],
-        "ans": "Pascal Hardy"
-      },
-      {
-        "id": 4,
-        "text": "What is the size of the urban rooftop space above the exhibition hall?",
-        "options": ["10,000 square metres", "14,000 square metres", "20,000 square metres"],
-        "ans": "14,000 square metres"
-      },
-      {
-        "id": 5,
-        "text": "How much fruit and vegetables can the team of young urban farmers harvest every day?",
-        "options": ["500 kg", "1,000 kg", "2,000 kg"],
-        "ans": "1,000 kg"
-      },
-      {
-        "id": 6,
-        "text": "What is the name of Pascal Hardy's urban agriculture consultancy?",
-        "options": ["Agripolis", "Urban Farming", "Green City"],
-        "ans": "Agripolis"
-      },
-      {
-        "id": 7,
-        "text": "What is the main advantage of the soil-free method of farming?",
-        "options": ["It uses more water", "It uses less water", "It uses the same amount of water"],
-        "ans": "It uses less water"
-      },
-      {
-        "id": 8,
-        "text": "What is the percentage of water used by the soil-free method compared to a classic intensive farm?",
-        "options": ["50% less", "70% less", "90% less"],
-        "ans": "90% less"
-      },
-      {
-        "id": 9,
-        "text": "What is the main topic of the second passage?",
-        "options": ["Forest management", "Space junk", "Urban farming"],
-        "ans": "Forest management"
-      },
-      {
-        "id": 10,
-        "text": "What is the term used to describe trees that have lower economic value for traditional timber markets?",
-        "options": ["Low-use wood", "High-use wood", "Junk trees"],
-        "ans": "Low-use wood"
-      }
-    ]
-  }
-}
-
-
-Note: The answers provided are based on the text and may not be the only possible correct answer. Additionally, the questions and answers are not exhaustive and are meant to provide a sample of the types of questions that could be asked based on the passage.;
-
-    const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
+        let MOCK_DATA = {};
+        const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
         let currentSections = ['listening', 'reading', 'writing'];
         let idx = 0;
         let secs = 0;
         let timerID = null;
 
-        function startMock() {
+        // DATAni xavfsiz o'qish
+        try {
+            const rawJson = document.getElementById('mock-data-script').textContent;
+            MOCK_DATA = JSON.parse(rawJson);
+        } catch (e) {
+            console.error("JSON Error", e);
+        }
+
+        function safeStart() {
+            if (!MOCK_DATA.listening && !MOCK_DATA.reading) {
+                alert("No test data found. Please wait 30s for GitHub deployment.");
+                return;
+            }
             tg.expand();
             try { tg.requestFullscreen(); } catch (e) { }
             idx = 0;
@@ -457,20 +487,22 @@ Note: The answers provided are based on the text and may not be the only possibl
             content.innerHTML = '<div class="q-view" id="q-view"></div>';
             const qView = document.getElementById('q-view');
 
+            const data = MOCK_DATA[sid];
+
             if (sid === 'listening') {
-                qView.innerHTML = `<h3>Part 1-4</h3><br><audio controls style="width:100%"><source src="${MOCK_DATA.listening.audio}"></audio><br>` +
-                    MOCK_DATA.listening.questions.map(q => `
+                qView.innerHTML = `<h3>Listening Part 1-4</h3><br><audio controls style="width:100%"><source src="${data?.audio || ''}"></audio><br>` +
+                    (data?.questions || []).map(q => `
                     <div class="q-item"><span class="q-label">Q${q.id}. ${q.text}</span>
-                    ${q.options.map(o => `<div class="option" onclick="selectOpt(this, 'l${q.id}')">${o}</div>`).join('')}</div>
+                    ${(q.options || []).map(o => `<div class="option" onclick="selectOpt(this, 'l${q.id}')">${o}</div>`).join('')}</div>
                 `).join('');
             } else if (sid === 'reading') {
-                qView.innerHTML = MOCK_DATA.reading.passages.map(p => `<div class="passage-box"><b>${p.title}</b><br>${p.text}</div>`).join('') +
-                    MOCK_DATA.reading.questions.map(q => `
+                qView.innerHTML = `<div class="passage-box">${data?.passage || ''}</div>` +
+                    (data?.questions || []).map(q => `
                     <div class="q-item"><span class="q-label">Q${q.id}. ${q.text}</span>
-                    ${q.options.map(o => `<div class="option" onclick="selectOpt(this, 'r${q.id}')">${o}</div>`).join('')}</div>
+                    ${(q.options || []).map(o => `<div class="option" onclick="selectOpt(this, 'r${q.id}')">${o}</div>`).join('')}</div>
                 `).join('');
             } else {
-                qView.innerHTML = `<div class="passage-box">${MOCK_DATA.writing.prompt}</div><textarea id="essayBox" placeholder="Write essay (250+ words)..." oninput="updateWC()"></textarea><p style="margin-top:5px; font-weight:700;">Words: <span id="wc">0</span></p>`;
+                qView.innerHTML = `<div class="passage-box">${MOCK_DATA.writing?.prompt || ''}</div><textarea id="essayBox" placeholder="Write essay..." oninput="updateWC()"></textarea><p style="margin-top:5px; font-weight:700;">Words: <span id="wc">0</span></p>`;
             }
 
             secs = TIMES[sid];
@@ -487,9 +519,10 @@ Note: The answers provided are based on the text and may not be the only possibl
         function selectOpt(el, qid) { el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('active')); el.classList.add('active'); }
         function updateWC() { const v = document.getElementById('essayBox').value.trim(); document.getElementById('wc').textContent = v ? v.split(/\s+/).length : 0; }
         function handleNavigation() { if (idx < 2) { idx++; loadSection(); document.getElementById('test-content').scrollTop = 0; } else { submit(); } }
+
         function submit() {
             clearInterval(timerID);
-            const results = { type: 'mock_test_results', writing: document.getElementById('essayBox').value, test_name: "Cambridge 18 - 40/40 Edition" };
+            const results = { type: 'mock_test_results', writing: document.getElementById('essayBox').value, test_name: "AI Cambridge Fetch" };
             tg.sendData(JSON.stringify(results));
         }
     </script>
