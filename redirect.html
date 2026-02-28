@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            background: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+            color: #fb7185;
+        }
+    </style>
+</head>
+
+<body>
+    <div style="text-align: center;">
+        <h2>ElitePrep AI</h2>
+        <p>Loading your test...</p>
+    </div>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+
+        const params = new URLSearchParams(window.location.search);
+        const url = params.get('url');
+
+        if (url) {
+            setTimeout(() => {
+                window.location.replace(url);
+            }, 500);
+        } else {
+            document.body.innerHTML = "<h2>Invalid URL</h2>";
+        }
+    </script>
+</body>
+
+</html>
