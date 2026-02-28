@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ElitePrep — IELTS Prep</title>
+    <title>ElitePrep — IELTS Prep v6</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
@@ -30,7 +30,6 @@
             background: var(--bg);
             color: var(--text);
             height: 100vh;
-            height: 100dvh;
             overflow: hidden;
             position: fixed;
             width: 100%;
@@ -47,51 +46,21 @@
             flex: 1;
             overflow-y: auto;
             padding: 24px 16px;
-            background-image: radial-gradient(#e11d4808 1.5px, transparent 1px);
-            background-size: 24px 24px;
-        }
-
-        .header-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .header-logo h1 {
-            font-size: 28px;
-            font-weight: 900;
-            letter-spacing: -1px;
-        }
-
-        .header-logo h1 span {
-            color: var(--primary);
-        }
-
-        .header-logo p {
-            font-size: 14px;
-            color: var(--muted);
-            margin-top: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .card {
             background: white;
             border: 1.5px solid var(--border);
             border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-            margin-top: 20px;
-        }
-
-        .card h3 {
-            font-size: 18px;
-            font-weight: 800;
-            margin-bottom: 6px;
-        }
-
-        .card p {
-            font-size: 13px;
-            color: var(--muted);
-            line-height: 1.5;
-            margin-bottom: 20px;
+            padding: 32px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
         }
 
         .start-btn {
@@ -99,12 +68,14 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 16px;
-            border-radius: 16px;
-            font-weight: 800;
-            font-size: 16px;
+            padding: 20px;
+            border-radius: 18px;
+            font-weight: 900;
+            font-size: 18px;
             text-transform: uppercase;
             cursor: pointer;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
         }
 
         .test-ui {
@@ -112,7 +83,7 @@
             flex-direction: column;
             height: 100%;
             background: white;
-            z-index: 1000;
+            z-index: 9999;
             position: fixed;
             inset: 0;
         }
@@ -123,6 +94,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: white;
         }
 
         .timer {
@@ -132,7 +104,6 @@
             background: #fff1f2;
             padding: 4px 10px;
             border-radius: 6px;
-            font-size: 14px;
         }
 
         .test-container {
@@ -140,6 +111,7 @@
             overflow-y: auto;
             padding: 16px;
             background: #f8fafc;
+            padding-bottom: 100px;
         }
 
         .q-view {
@@ -147,41 +119,6 @@
             border-radius: 20px;
             padding: 24px;
             border: 1px solid var(--border);
-            margin-bottom: 80px;
-        }
-
-        .q-label {
-            font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 14px;
-            display: block;
-            color: #1e293b;
-        }
-
-        .option {
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            margin-bottom: 8px;
-            font-size: 14px;
-            background: #fff;
-            cursor: pointer;
-        }
-
-        .option.active {
-            background: #fff1f2;
-            border-color: var(--primary);
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .passage-box {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 24px;
-            line-height: 1.8;
-            border-left: 5px solid var(--primary);
         }
 
         .footer-action {
@@ -201,7 +138,6 @@
             color: white;
             border: none;
             border-radius: 16px;
-            font-size: 16px;
             font-weight: 800;
         }
 
@@ -212,16 +148,38 @@
             border-radius: 14px;
             border: 1px solid var(--border);
             font-family: inherit;
-            resize: none;
-            outline: none;
-            background: #fff;
             font-size: 16px;
         }
 
+        .option {
+            padding: 15px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 8px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+        .option.active {
+            background: #fff1f2;
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .passage-box {
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Tiiny.host banner yashirish */
         div[style*="z-index: 2147483647"],
-        [id*="tiiny"],
-        iframe[src*="tiiny"] {
+        iframe,
+        [id*="tiiny"] {
             display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            height: 0 !important;
         }
     </style>
 </head>
@@ -230,14 +188,15 @@
 
     <div class="app">
         <div id="dashboard-view" class="dashboard">
-            <div class="header-logo">
-                <h1>IELTS <span>Prep</span></h1>
-                <p>Full 40:40 Mock Test Simulation.</p>
-            </div>
             <div class="card">
-                <h3>Ready for Cambridge Mock?</h3>
-                <p id="test-info-text">Listening (40), Reading (40), Writing. Accurate AI Scoring.</p>
-                <button class="start-btn" onclick="safeStart()">Start Full Test</button>
+                <h1 style="font-weight:900; font-size:32px; margin-bottom:10px;">IELTS <span
+                        style="color:var(--primary)">Prep</span></h1>
+                <p style="color:var(--muted); font-size:14px; margin-bottom:30px;">Professional Cambridge Simulation</p>
+                <div style="background:#f8fafc; border-radius:16px; padding:15px; margin-bottom:20px;">
+                    <p style="font-weight:700; font-size:15px;">Full Mock Test #1</p>
+                    <p style="font-size:12px; color:var(--muted);">L(40), R(40), W(Task 2)</p>
+                </div>
+                <button class="start-btn" onclick="startTest()">START FULL TEST</button>
             </div>
         </div>
 
@@ -247,201 +206,121 @@
                 <div class="timer" id="timer-text">40:00</div>
             </div>
             <div class="test-container" id="test-content"></div>
-            <div class="footer-action"><button class="main-btn" id="footer-btn" onclick="handleNavigation()">Continue
-                    ➔</button></div>
+            <div class="footer-action">
+                <button class="main-btn" id="footer-btn" onclick="handleNavigation()">CONTINUE ➔</button>
+            </div>
         </div>
     </div>
 
-    <!-- SAFE DATA STORAGE -->
     <script id="mock-data-script" type="application/json">
 {
     "listening": {
-        "audio": "Not provided, as there is no direct URL to the audio file.",
+        "audio": "https://example.com/listening-audio.mp3",
         "questions": [
             {
                 "id": 1,
-                "text": "What is the purpose of the survey being conducted by the man?",
+                "text": "What is the main purpose of the conversation between the man and Sadie Jones?",
                 "options": [
-                    "To understand transport usage",
-                    "To gather information about the speaker",
-                    "To promote a product"
+                    "To discuss a survey on transport",
+                    "To talk about a new job opportunity",
+                    "To review a product"
                 ],
-                "ans": "To understand transport usage"
+                "ans": "To discuss a survey on transport"
             },
             {
                 "id": 2,
-                "text": "What mode of transport does Sadie use to travel to the city centre?",
+                "text": "How did Sadie Jones travel to the city centre on the day of the conversation?",
                 "options": [
-                    "Car",
-                    "Bus",
-                    "Train"
+                    "By car",
+                    "By bus",
+                    "By bike"
                 ],
-                "ans": "Bus"
+                "ans": "By bus"
             },
             {
                 "id": 3,
                 "text": "Why did Sadie stop driving?",
                 "options": [
-                    "Due to parking difficulties and costs",
-                    "Due to lack of time",
-                    "Due to health issues"
+                    "Because parking was difficult to find and expensive",
+                    "Because she didn't have a car",
+                    "Because she preferred cycling"
                 ],
-                "ans": "Due to parking difficulties and costs"
+                "ans": "Because parking was difficult to find and expensive"
             },
             {
                 "id": 4,
-                "text": "What is the primary reason for Sadie's trip to the city centre today?",
+                "text": "What is one of the roles that volunteers can take up at ACE voluntary organisation?",
                 "options": [
-                    "Shopping",
-                    "Dentist appointment",
-                    "Meeting a friend"
+                    "Litter collection",
+                    "Teaching English",
+                    "Fundraising"
                 ],
-                "ans": "Dentist appointment"
+                "ans": "Litter collection"
             },
             {
                 "id": 5,
-                "text": "How often does Sadie use her car?",
+                "text": "What is a requirement for volunteers who want to work with children at ACE?",
                 "options": [
-                    "Daily",
-                    "Weekly",
-                    "Rarely"
+                    "Knowing something about nutrition",
+                    "Having experience with acting",
+                    "Having children of their own"
                 ],
-                "ans": "Rarely"
-            },
-            {
-                "id": 6,
-                "text": "What is the minimum age to volunteer for ACE?",
-                "options": [
-                    "16",
-                    "18",
-                    "21"
-                ],
-                "ans": "16"
-            },
-            {
-                "id": 7,
-                "text": "What type of training is provided to volunteers at ACE?",
-                "options": [
-                    "Online training",
-                    "Face-to-face training",
-                    "Self-study"
-                ],
-                "ans": "Face-to-face training"
-            },
-            {
-                "id": 8,
-                "text": "What is one of the areas where ACE needs volunteers?",
-                "options": [
-                    "Fundraising",
-                    "Litter collection",
-                    "Both"
-                ],
-                "ans": "Both"
-            },
-            {
-                "id": 9,
-                "text": "What is the speaker's message to the students about the job market?",
-                "options": [
-                    "It's competitive, but there are many opportunities",
-                    "It's easy to get a job in the industry",
-                    "It's difficult to get a job in the industry"
-                ],
-                "ans": "It's competitive, but there are many opportunities"
-            },
-            {
-                "id": 10,
-                "text": "What is Chantal's opinion about the speaker's message?",
-                "options": [
-                    "She agrees with the speaker",
-                    "She disagrees with the speaker",
-                    "She is neutral"
-                ],
-                "ans": "She agrees with the speaker, but also thinks the speaker was a bit harsh"
+                "ans": "Knowing something about nutrition"
             }
         ]
     },
     "reading": {
-        "passage": "Urban farming In Paris, urban farmers are trying a soil-free approach to agriculture that uses less space and fewer resources. Could it help cities face the threats to our food supplies? ...",
+        "passage": "Urban farming In Paris, urban farmers are trying a soil-free approach to agriculture that uses less space and fewer resources. Could it help cities face the threats to our food supplies? ... (the passage is too long and has been shortened for brevity)",
         "questions": [
             {
                 "id": 1,
-                "text": "What is the main idea of the passage?",
+                "text": "What approach to agriculture are urban farmers in Paris trying?",
                 "options": [
-                    "Urban farming is a new phenomenon",
-                    "Urban farming can help cities face food supply threats",
-                    "Urban farming is only done in Paris"
+                    "Soil-based farming",
+                    "Soil-free farming",
+                    "Greenhouse farming"
                 ],
-                "ans": "Urban farming can help cities face food supply threats"
+                "ans": "Soil-free farming"
             },
             {
                 "id": 2,
-                "text": "What is the name of the urban agriculture consultancy mentioned in the passage?",
+                "text": "What is the size of the urban rooftop farm above the exhibition hall in southern Paris?",
+                "options": [
+                    "10,000 square metres",
+                    "14,000 square metres",
+                    "20,000 square metres"
+                ],
+                "ans": "14,000 square metres"
+            },
+            {
+                "id": 3,
+                "text": "How much of the world's fruit and vegetables could potentially be produced using this soil-free method?",
+                "options": [
+                    "1%",
+                    "5-10%",
+                    "20%"
+                ],
+                "ans": "5-10%"
+            },
+            {
+                "id": 4,
+                "text": "What is the name of Pascal Hardy's urban agriculture consultancy?",
                 "options": [
                     "Agripolis",
                     "Urban Farming",
-                    "Soil-Free Farming"
+                    "Sustainable Development"
                 ],
                 "ans": "Agripolis"
             },
             {
-                "id": 3,
-                "text": "What is one of the advantages of the soil-free method of farming mentioned in the passage?",
-                "options": [
-                    "It uses more water",
-                    "It uses more space",
-                    "It produces food with better flavor"
-                ],
-                "ans": "It produces food with better flavor"
-            },
-            {
-                "id": 4,
-                "text": "What is the main difference between the soil-free method of farming and traditional intensive farming?",
-                "options": [
-                    "The soil-free method uses more pesticides",
-                    "The soil-free method uses less water",
-                    "The soil-free method produces more greenhouse gases"
-                ],
-                "ans": "The soil-free method uses less water"
-            },
-            {
                 "id": 5,
-                "text": "What is the purpose of managing low-quality wood in Pennsylvania?",
+                "text": "What is the benefit of the soil-free method in terms of water usage?",
                 "options": [
-                    "To produce bioenergy",
-                    "To promote sustainable forest management",
-                    "To reduce greenhouse gases"
+                    "It uses more water than classic intensive farming",
+                    "It uses the same amount of water as classic intensive farming",
+                    "It uses 90% less water than classic intensive farming"
                 ],
-                "ans": "To promote sustainable forest management"
-            },
-            {
-                "id": 6,
-                "text": "What is a Timber Stand Improvement (TSI) Cut?",
-                "options": [
-                    "A method of cutting down trees to allow for more space and light",
-                    "A method of cutting down trees to produce bioenergy",
-                    "A method of cutting down trees to reduce greenhouse gases"
-                ],
-                "ans": "A method of cutting down trees to allow for more space and light"
-            },
-            {
-                "id": 7,
-                "text": "What is the main concern regarding space junk?",
-                "options": [
-                    "It is a new phenomenon",
-                    "It is a major traffic risk in orbit",
-                    "It is a minor problem"
-                ],
-                "ans": "It is a major traffic risk in orbit"
-            },
-            {
-                "id": 8,
-                "text": "What is one of the ways to reduce space junk?",
-                "options": [
-                    "By launching more satellites",
-                    "By improving methods for assessing what is in orbit",
-                    "By ignoring the problem"
-                ],
-                "ans": "By improving methods for assessing what is in orbit"
+                "ans": "It uses 90% less water than classic intensive farming"
             }
         ]
     }
@@ -453,78 +332,54 @@
         tg.ready();
 
         let MOCK_DATA = {};
-        const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
-        let currentSections = ['listening', 'reading', 'writing'];
         let idx = 0;
-        let secs = 0;
         let timerID = null;
 
-        // DATAni xavfsiz o'qish
-        try {
-            const rawJson = document.getElementById('mock-data-script').textContent;
-            MOCK_DATA = JSON.parse(rawJson);
-        } catch (e) {
-            console.error("JSON Error", e);
-        }
-
-        function safeStart() {
-            if (!MOCK_DATA.listening && !MOCK_DATA.reading) {
-                alert("No test data found. Please wait 30s for GitHub deployment.");
+        function startTest() {
+            console.log("Start Test Clicked");
+            try {
+                const raw = document.getElementById('mock-data-script').textContent;
+                MOCK_DATA = JSON.parse(raw);
+            } catch (e) {
+                alert("Data Error. Please reload.");
                 return;
             }
+
             tg.expand();
-            try { tg.requestFullscreen(); } catch (e) { }
-            idx = 0;
+            // Fullscreen ruxsat berilsa qiladi, bo'lmasa xato bermasdan o'tib ketadi
+            try { tg.requestFullscreen(); } catch (e) { console.warn("Fullscreen not supported"); }
+
             document.getElementById('dashboard-view').style.display = 'none';
             document.getElementById('test-view').style.display = 'flex';
             loadSection();
         }
 
         function loadSection() {
-            const sid = currentSections[idx];
+            const sections = ['listening', 'reading', 'writing'];
+            const sid = sections[idx];
             document.getElementById('section-name').textContent = sid.toUpperCase();
             const content = document.getElementById('test-content');
             content.innerHTML = '<div class="q-view" id="q-view"></div>';
             const qView = document.getElementById('q-view');
-
-            const data = MOCK_DATA[sid];
+            const data = MOCK_DATA[sid] || {};
 
             if (sid === 'listening') {
-                qView.innerHTML = `<h3>Listening Part 1-4</h3><br><audio controls style="width:100%"><source src="${data?.audio || ''}"></audio><br>` +
-                    (data?.questions || []).map(q => `
-                    <div class="q-item"><span class="q-label">Q${q.id}. ${q.text}</span>
-                    ${(q.options || []).map(o => `<div class="option" onclick="selectOpt(this, 'l${q.id}')">${o}</div>`).join('')}</div>
-                `).join('');
+                qView.innerHTML = `<h3>Part 1-4</h3><br><audio controls style="width:100%"><source src="${data.audio || ''}"></audio><br>` +
+                    (data.questions || []).map(q => `<div style="margin-bottom:20px;"><b>Q${q.id}. ${q.text}</b>` +
+                        (q.options || []).map(o => `<div class="option" onclick="selectOpt(this)">${o}</div>`).join('') + `</div>`).join('');
             } else if (sid === 'reading') {
-                qView.innerHTML = `<div class="passage-box">${data?.passage || ''}</div>` +
-                    (data?.questions || []).map(q => `
-                    <div class="q-item"><span class="q-label">Q${q.id}. ${q.text}</span>
-                    ${(q.options || []).map(o => `<div class="option" onclick="selectOpt(this, 'r${q.id}')">${o}</div>`).join('')}</div>
-                `).join('');
+                qView.innerHTML = `<div class="passage-box">${data.passage || ''}</div>` +
+                    (data.questions || []).map(q => `<div style="margin-bottom:20px;"><b>Q${q.id}. ${q.text}</b>` +
+                        (q.options || []).map(o => `<div class="option" onclick="selectOpt(this)">${o}</div>`).join('') + `</div>`).join('');
             } else {
-                qView.innerHTML = `<div class="passage-box">${MOCK_DATA.writing?.prompt || ''}</div><textarea id="essayBox" placeholder="Write essay..." oninput="updateWC()"></textarea><p style="margin-top:5px; font-weight:700;">Words: <span id="wc">0</span></p>`;
+                qView.innerHTML = `<div class="passage-box"><b>Prompt:</b><br>${MOCK_DATA.writing?.prompt || ''}</div><textarea id="essay"></textarea>`;
             }
-
-            secs = TIMES[sid];
-            if (timerID) clearInterval(timerID);
-            timerID = setInterval(() => {
-                if (secs <= 0) { handleNavigation(); return; }
-                secs--;
-                const m = Math.floor(secs / 60); const s = secs % 60;
-                document.getElementById('timer-text').textContent = (m < 10 ? '0' : '') + m + ":" + (s < 10 ? '0' : '') + s;
-            }, 1000);
-            document.getElementById('footer-btn').textContent = idx < 2 ? "Go to Next Section ➔" : "💾 Submit My Test";
+            document.getElementById('footer-btn').textContent = idx < 2 ? "NEXT SECTION ➔" : "FINISH TEST";
         }
 
-        function selectOpt(el, qid) { el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('active')); el.classList.add('active'); }
-        function updateWC() { const v = document.getElementById('essayBox').value.trim(); document.getElementById('wc').textContent = v ? v.split(/\s+/).length : 0; }
-        function handleNavigation() { if (idx < 2) { idx++; loadSection(); document.getElementById('test-content').scrollTop = 0; } else { submit(); } }
-
-        function submit() {
-            clearInterval(timerID);
-            const results = { type: 'mock_test_results', writing: document.getElementById('essayBox').value, test_name: "AI Cambridge Fetch" };
-            tg.sendData(JSON.stringify(results));
-        }
+        function selectOpt(el) { el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('active')); el.classList.add('active'); }
+        function handleNavigation() { if (idx < 2) { idx++; loadSection(); document.getElementById('test-content').scrollTop = 0; } else { finish(); } }
+        function finish() { tg.sendData(JSON.stringify({ type: 'mock_test_results', writing: document.getElementById('essay')?.value || '' })); }
     </script>
 </body>
 
