@@ -5,322 +5,435 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ElitePrep — IELTS Prep v6</title>
+    <title>IELTS Online Simulation</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #e11d48;
-            --bg: #fdfdfd;
-            --text: #0f172a;
-            --muted: #64748b;
-            --border: #f1f5f9;
+            --primary: #2563eb;
+            --red: #e11d48;
+            --green: #16a34a;
+            --bg: #f3f4f6;
+            --border: #d1d5db;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
             background: var(--bg);
-            color: var(--text);
             height: 100vh;
             overflow: hidden;
-            position: fixed;
-            width: 100%;
-        }
-
-        .app {
             display: flex;
             flex-direction: column;
-            height: 100%;
-            width: 100%;
         }
 
-        .dashboard {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px 16px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .card {
-            background: white;
-            border: 1.5px solid var(--border);
-            border-radius: 24px;
-            padding: 32px 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .start-btn {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 20px;
-            border-radius: 18px;
-            font-weight: 900;
-            font-size: 18px;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(225, 29, 72, 0.3);
-        }
-
-        .test-ui {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-            background: white;
-            z-index: 9999;
-            position: fixed;
-            inset: 0;
-        }
-
-        .test-top {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
+        /* Official Header */
+        header {
+            background: #fff;
+            border-bottom: 2px solid var(--border);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
         }
 
         .timer {
+            background: #000;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
             font-family: monospace;
-            font-weight: 900;
-            color: var(--primary);
-            background: #fff1f2;
-            padding: 4px 10px;
-            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
         }
 
-        .test-container {
+        /* Main Layout */
+        .main-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content-area {
             flex: 1;
             overflow-y: auto;
-            padding: 16px;
-            background: #f8fafc;
-            padding-bottom: 100px;
-        }
-
-        .q-view {
-            background: white;
-            border-radius: 20px;
-            padding: 24px;
-            border: 1px solid var(--border);
-        }
-
-        .footer-action {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            padding: 16px;
-            background: white;
-            border-top: 1px solid var(--border);
-        }
-
-        .main-btn {
-            width: 100%;
-            padding: 16px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 16px;
-            font-weight: 800;
-        }
-
-        textarea {
-            width: 100%;
-            height: 320px;
-            padding: 16px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            font-family: inherit;
-            font-size: 16px;
-        }
-
-        .option {
-            padding: 15px;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            margin-bottom: 8px;
+            padding: 20px;
             background: #fff;
-            cursor: pointer;
+            margin: 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
         }
 
-        .option.active {
-            background: #fff1f2;
-            border-color: var(--primary);
-            color: var(--primary);
-            font-weight: 700;
-        }
-
-        .passage-box {
+        /* Question Styles */
+        .passage {
             line-height: 1.8;
-            margin-bottom: 20px;
+            color: #1f2937;
+            margin-bottom: 30px;
+            font-size: 16px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
         }
 
-        /* Tiiny.host banner yashirish */
-        div[style*="z-index: 2147483647"],
-        iframe,
-        [id*="tiiny"] {
+        .question-row {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .q-num {
+            background: #e5e7eb;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        input[type="text"] {
+            border: 1px solid var(--border);
+            padding: 8px 12px;
+            border-radius: 4px;
+            outline: none;
+            width: 200px;
+            transition: border 0.2s;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px #dbeafe;
+        }
+
+        /* Bottom Navigation (Official Style) */
+        .bottom-nav {
+            background: #fff;
+            border-top: 2px solid var(--border);
+            padding: 10px;
+            display: flex;
+            overflow-x: auto;
+            gap: 8px;
+            white-space: nowrap;
+        }
+
+        .nav-btn {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: #f9fafb;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .nav-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .nav-btn.completed {
+            border-bottom: 3px solid var(--green);
+        }
+
+        /* Dashboard */
+        #dashboard {
+            position: fixed;
+            inset: 0;
+            background: #fff;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .start-card {
+            background: #fff;
+            border: 2px solid #000;
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .official-btn {
+            background: var(--red);
+            color: #fff;
+            border: none;
+            padding: 15px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
+
+        /* Hidden UI */
+        .hidden {
             display: none !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-            height: 0 !important;
+        }
+
+        /* Tiiny host bypass */
+        #tiiny-host-banner,
+        div[style*="z-index: 2147483647"] {
+            display: none !important;
+            visibility: hidden !important;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="app">
-        <div id="dashboard-view" class="dashboard">
-            <div class="card">
-                <h1 style="font-weight:900; font-size:32px; margin-bottom:10px;">IELTS <span
-                        style="color:var(--primary)">Prep</span></h1>
-                <p style="color:var(--muted); font-size:14px; margin-bottom:30px;">Professional Cambridge Simulation</p>
-                <div style="background:#f8fafc; border-radius:16px; padding:15px; margin-bottom:20px;">
-                    <p style="font-weight:700; font-size:15px;">Full Mock Test #1</p>
-                    <p style="font-size:12px; color:var(--muted);">L(40), R(40), W(Task 2)</p>
-                </div>
-                <button class="start-btn" onclick="startTest()">START FULL TEST</button>
+    <!-- DASHBOARD VIEW -->
+    <div id="dashboard">
+        <div class="start-card">
+            <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">IELTS <span>ONLINE</span></h1>
+            <p style="color: #666; margin-bottom: 30px;">This is a computer-delivered IELTS simulation.</p>
+            <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
+                <p><strong>Test:</strong> Cambridge Assessment English</p>
+                <p><strong>Format:</strong> L, R, W + AI Speaking</p>
             </div>
+            <button class="official-btn" onclick="startOfficialTest()">Start Test</button>
+        </div>
+    </div>
+
+    <!-- TEST VIEW -->
+    <header class="hidden" id="test-header">
+        <div style="font-weight: 800; font-size: 18px;">IELTS Simulation</div>
+        <div class="timer" id="timer">40:00</div>
+    </header>
+
+    <div class="main-container hidden" id="test-main">
+        <div id="audio-container" style="padding: 10px 20px; background: #f9fafb; border-bottom: 1px solid #ddd;"
+            class="hidden">
+            <audio id="test-audio" controls style="width: 100%; height: 35px;"></audio>
         </div>
 
-        <div id="test-view" class="test-ui">
-            <div class="test-top">
-                <div id="section-name" style="font-weight:900; font-size:16px; color:var(--primary)">LISTENING</div>
-                <div class="timer" id="timer-text">40:00</div>
-            </div>
-            <div class="test-container" id="test-content"></div>
-            <div class="footer-action">
-                <button class="main-btn" id="footer-btn" onclick="handleNavigation()">CONTINUE ➔</button>
-            </div>
+        <div class="content-area" id="ques-container">
+            <!-- Questions load here -->
+        </div>
+
+        <div class="bottom-nav" id="parts-nav">
+            <!-- Parts like Part 1, Part 2, etc -->
         </div>
     </div>
 
     <script id="mock-data-script" type="application/json">
 {
     "listening": {
-        "audio": "https://example.com/listening-audio.mp3",
+        "audio": "Not available",
         "questions": [
             {
                 "id": 1,
-                "text": "What is the main purpose of the conversation between the man and Sadie Jones?",
+                "text": "What is the speaker's name?",
                 "options": [
-                    "To discuss a survey on transport",
-                    "To talk about a new job opportunity",
-                    "To review a product"
+                    "Sadie Jones",
+                    "Pascal Hardy",
+                    "Not mentioned"
                 ],
-                "ans": "To discuss a survey on transport"
+                "ans": "Sadie Jones"
             },
             {
                 "id": 2,
-                "text": "How did Sadie Jones travel to the city centre on the day of the conversation?",
+                "text": "What is Sadie's postcode?",
                 "options": [
-                    "By car",
-                    "By bus",
-                    "By bike"
+                    "DW30 7YZ",
+                    "Not mentioned",
+                    "Unknown"
                 ],
-                "ans": "By bus"
+                "ans": "DW30 7YZ"
             },
             {
                 "id": 3,
                 "text": "Why did Sadie stop driving?",
                 "options": [
-                    "Because parking was difficult to find and expensive",
-                    "Because she didn't have a car",
-                    "Because she preferred cycling"
+                    "Parking was difficult to find and expensive",
+                    "She didn't have a car",
+                    "She didn't know how to drive"
                 ],
-                "ans": "Because parking was difficult to find and expensive"
+                "ans": "Parking was difficult to find and expensive"
             },
             {
                 "id": 4,
-                "text": "What is one of the roles that volunteers can take up at ACE voluntary organisation?",
+                "text": "How long does it take Sadie to travel to the city centre by bus?",
                 "options": [
-                    "Litter collection",
-                    "Teaching English",
-                    "Fundraising"
+                    "30 minutes",
+                    "1 hour",
+                    "2 hours"
                 ],
-                "ans": "Litter collection"
+                "ans": "30 minutes"
             },
             {
                 "id": 5,
-                "text": "What is a requirement for volunteers who want to work with children at ACE?",
+                "text": "What is the minimum age to volunteer for ACE?",
                 "options": [
-                    "Knowing something about nutrition",
-                    "Having experience with acting",
-                    "Having children of their own"
+                    "16",
+                    "18",
+                    "21"
                 ],
-                "ans": "Knowing something about nutrition"
+                "ans": "16"
+            },
+            {
+                "id": 6,
+                "text": "What type of activity does ACE need volunteers for?",
+                "options": [
+                    "Litter collection",
+                    "Fundraising",
+                    "Both"
+                ],
+                "ans": "Both"
+            },
+            {
+                "id": 7,
+                "text": "What is the name of the speaker in the second part of the listening section?",
+                "options": [
+                    "Chantal",
+                    "Hugo",
+                    "Not mentioned"
+                ],
+                "ans": "Not mentioned"
+            },
+            {
+                "id": 8,
+                "text": "What did Chantal think of the talk?",
+                "options": [
+                    "It was interesting",
+                    "It was boring",
+                    "She didn't like it"
+                ],
+                "ans": "It was interesting"
+            },
+            {
+                "id": 9,
+                "text": "What did Hugo think of the speaker's message?",
+                "options": [
+                    "It was strong",
+                    "It was weak",
+                    "It was unclear"
+                ],
+                "ans": "It was strong"
+            },
+            {
+                "id": 10,
+                "text": "Did Chantal think the speaker's account of her first job was fascinating?",
+                "options": [
+                    "Yes",
+                    "No",
+                    "Not mentioned"
+                ],
+                "ans": "Yes"
             }
         ]
     },
     "reading": {
-        "passage": "Urban farming In Paris, urban farmers are trying a soil-free approach to agriculture that uses less space and fewer resources. Could it help cities face the threats to our food supplies? ... (the passage is too long and has been shortened for brevity)",
+        "passage": "Urban farming In Paris, urban farmers are trying a soil-free approach to agriculture that uses less space and fewer resources. Could it help cities face the threats to our food supplies? ...",
         "questions": [
             {
                 "id": 1,
-                "text": "What approach to agriculture are urban farmers in Paris trying?",
+                "text": "What is the main topic of the passage?",
                 "options": [
-                    "Soil-based farming",
-                    "Soil-free farming",
-                    "Greenhouse farming"
+                    "Urban farming",
+                    "Soil-free agriculture",
+                    "Food supplies"
                 ],
-                "ans": "Soil-free farming"
+                "ans": "Urban farming"
             },
             {
                 "id": 2,
-                "text": "What is the size of the urban rooftop farm above the exhibition hall in southern Paris?",
+                "text": "Where is the world's largest urban rooftop farm located?",
                 "options": [
-                    "10,000 square metres",
+                    "Paris",
+                    "Shanghai",
+                    "Detroit"
+                ],
+                "ans": "Paris"
+            },
+            {
+                "id": 3,
+                "text": "What is the name of the engineer and sustainable development consultant mentioned in the passage?",
+                "options": [
+                    "Pascal Hardy",
+                    "Not mentioned",
+                    "Unknown"
+                ],
+                "ans": "Pascal Hardy"
+            },
+            {
+                "id": 4,
+                "text": "What is the size of the urban rooftop space above the exhibition hall?",
+                "options": [
                     "14,000 square metres",
-                    "20,000 square metres"
+                    "10,000 square metres",
+                    "5,000 square metres"
                 ],
                 "ans": "14,000 square metres"
             },
             {
-                "id": 3,
-                "text": "How much of the world's fruit and vegetables could potentially be produced using this soil-free method?",
+                "id": 5,
+                "text": "What is the method of farming used in the passage?",
                 "options": [
-                    "1%",
-                    "5-10%",
-                    "20%"
+                    "Aeroponic farming",
+                    "Hydroponic farming",
+                    "Soil-based farming"
                 ],
-                "ans": "5-10%"
+                "ans": "Aeroponic farming"
             },
             {
-                "id": 4,
+                "id": 6,
+                "text": "What are the advantages of the soil-free method mentioned in the passage?",
+                "options": [
+                    "Less water usage",
+                    "Less space required",
+                    "Both"
+                ],
+                "ans": "Both"
+            },
+            {
+                "id": 7,
                 "text": "What is the name of Pascal Hardy's urban agriculture consultancy?",
                 "options": [
                     "Agripolis",
-                    "Urban Farming",
-                    "Sustainable Development"
+                    "Not mentioned",
+                    "Unknown"
                 ],
                 "ans": "Agripolis"
             },
             {
-                "id": 5,
-                "text": "What is the benefit of the soil-free method in terms of water usage?",
+                "id": 8,
+                "text": "What is the main idea of the second passage about forest management?",
                 "options": [
-                    "It uses more water than classic intensive farming",
-                    "It uses the same amount of water as classic intensive farming",
-                    "It uses 90% less water than classic intensive farming"
+                    "Managing low-quality wood for bioenergy",
+                    "Managing high-quality wood for timber",
+                    "Not mentioned"
                 ],
-                "ans": "It uses 90% less water than classic intensive farming"
+                "ans": "Managing low-quality wood for bioenergy"
+            },
+            {
+                "id": 9,
+                "text": "What is the term used to describe the practice of removing high-quality trees and leaving behind low-quality trees?",
+                "options": [
+                    "High-grading",
+                    "Low-grading",
+                    "Not mentioned"
+                ],
+                "ans": "High-grading"
+            },
+            {
+                "id": 10,
+                "text": "What is the main idea of the third passage about space junk?",
+                "options": [
+                    "Reducing space junk",
+                    "Increasing space junk",
+                    "Not mentioned"
+                ],
+                "ans": "Reducing space junk"
             }
         ]
     }
@@ -331,55 +444,121 @@
         const tg = window.Telegram.WebApp;
         tg.ready();
 
-        let MOCK_DATA = {};
-        let idx = 0;
+        let ALL_DATA = {};
+        let currentMode = 'listening'; // listening, reading, writing
+        let currentPart = 0; // 0=Part 1, 1=Part 2...
         let timerID = null;
+        let seconds = 0;
 
-        function startTest() {
-            console.log("Start Test Clicked");
+        function startOfficialTest() {
             try {
                 const raw = document.getElementById('mock-data-script').textContent;
-                MOCK_DATA = JSON.parse(raw);
-            } catch (e) {
-                alert("Data Error. Please reload.");
+                ALL_DATA = JSON.parse(raw);
+            } catch (e) { alert("Data error. Reloading..."); return; }
+
+            tg.expand();
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('test-header').classList.remove('hidden');
+            document.getElementById('test-main').classList.remove('hidden');
+
+            initSection('listening');
+        }
+
+        function initSection(mode) {
+            currentMode = mode;
+            currentPart = 0;
+
+            if (mode === 'listening') {
+                seconds = 30 * 60;
+                document.getElementById('audio-container').classList.remove('hidden');
+                document.getElementById('test-audio').src = ALL_DATA.listening?.audio || "";
+            } else {
+                seconds = 60 * 60;
+                document.getElementById('audio-container').classList.add('hidden');
+            }
+
+            renderNav();
+            renderPart();
+            startTimer();
+        }
+
+        function renderNav() {
+            const nav = document.getElementById('parts-nav');
+            nav.innerHTML = '';
+            const partsCount = currentMode === 'writing' ? 1 : 4;
+
+            for (let i = 0; i < partsCount; i++) {
+                const btn = document.createElement('button');
+                btn.className = `nav-btn ${i === currentPart ? 'active' : ''}`;
+                btn.textContent = currentMode === 'writing' ? 'Writing Task' : `Part ${i + 1}`;
+                btn.onclick = () => { currentPart = i; renderNav(); renderPart(); };
+                nav.appendChild(btn);
+            }
+
+            // Next Section Button
+            const nextBtn = document.createElement('button');
+            nextBtn.className = 'nav-btn';
+            nextBtn.style.background = '#000';
+            nextBtn.style.color = '#fff';
+            nextBtn.textContent = 'Next Section ➔';
+            nextBtn.onclick = switchToNextSection;
+            nav.appendChild(nextBtn);
+        }
+
+        function renderPart() {
+            const container = document.getElementById('ques-container');
+            container.innerHTML = '';
+            const data = ALL_DATA[currentMode];
+
+            if (currentMode === 'writing') {
+                container.innerHTML = `<div class="passage"><strong>Task:</strong><br>${data.prompt}</div>
+                                   <textarea style="width:100%; height:400px; padding:15px; border-radius:4px; border:1px solid #ccc; font-size:16px; outline:none;" placeholder="Type your answer here..."></textarea>`;
                 return;
             }
 
-            tg.expand();
-            // Fullscreen ruxsat berilsa qiladi, bo'lmasa xato bermasdan o'tib ketadi
-            try { tg.requestFullscreen(); } catch (e) { console.warn("Fullscreen not supported"); }
-
-            document.getElementById('dashboard-view').style.display = 'none';
-            document.getElementById('test-view').style.display = 'flex';
-            loadSection();
-        }
-
-        function loadSection() {
-            const sections = ['listening', 'reading', 'writing'];
-            const sid = sections[idx];
-            document.getElementById('section-name').textContent = sid.toUpperCase();
-            const content = document.getElementById('test-content');
-            content.innerHTML = '<div class="q-view" id="q-view"></div>';
-            const qView = document.getElementById('q-view');
-            const data = MOCK_DATA[sid] || {};
-
-            if (sid === 'listening') {
-                qView.innerHTML = `<h3>Part 1-4</h3><br><audio controls style="width:100%"><source src="${data.audio || ''}"></audio><br>` +
-                    (data.questions || []).map(q => `<div style="margin-bottom:20px;"><b>Q${q.id}. ${q.text}</b>` +
-                        (q.options || []).map(o => `<div class="option" onclick="selectOpt(this)">${o}</div>`).join('') + `</div>`).join('');
-            } else if (sid === 'reading') {
-                qView.innerHTML = `<div class="passage-box">${data.passage || ''}</div>` +
-                    (data.questions || []).map(q => `<div style="margin-bottom:20px;"><b>Q${q.id}. ${q.text}</b>` +
-                        (q.options || []).map(o => `<div class="option" onclick="selectOpt(this)">${o}</div>`).join('') + `</div>`).join('');
-            } else {
-                qView.innerHTML = `<div class="passage-box"><b>Prompt:</b><br>${MOCK_DATA.writing?.prompt || ''}</div><textarea id="essay"></textarea>`;
+            if (currentMode === 'reading') {
+                const pass = document.createElement('div');
+                pass.className = 'passage';
+                pass.innerHTML = data.passage || "";
+                container.appendChild(pass);
             }
-            document.getElementById('footer-btn').textContent = idx < 2 ? "NEXT SECTION ➔" : "FINISH TEST";
+
+            // Render roughly 10 questions per part
+            const startQ = currentPart * 10;
+            const endQ = startQ + 10;
+            const slice = (data.questions || []).slice(startQ, endQ);
+
+            slice.forEach(q => {
+                const row = document.createElement('div');
+                row.className = 'question-row';
+                row.innerHTML = `<span class="q-num">${q.id}</span> 
+                             <span style="font-size:14px;">${q.text}</span> 
+                             <input type="text" placeholder="Type answer...">`;
+                container.appendChild(row);
+            });
         }
 
-        function selectOpt(el) { el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('active')); el.classList.add('active'); }
-        function handleNavigation() { if (idx < 2) { idx++; loadSection(); document.getElementById('test-content').scrollTop = 0; } else { finish(); } }
-        function finish() { tg.sendData(JSON.stringify({ type: 'mock_test_results', writing: document.getElementById('essay')?.value || '' })); }
+        function startTimer() {
+            if (timerID) clearInterval(timerID);
+            timerID = setInterval(() => {
+                if (seconds <= 0) { switchToNextSection(); return; }
+                seconds--;
+                const m = Math.floor(seconds / 60);
+                const s = seconds % 60;
+                document.getElementById('timer').textContent = `${m < 10 ? '0' : ''}${m}:${s < 10 ? '0' : ''}${s}`;
+            }, 1000);
+        }
+
+        function switchToNextSection() {
+            if (currentMode === 'listening') initSection('reading');
+            else if (currentMode === 'reading') initSection('writing');
+            else finishTest();
+        }
+
+        function finishTest() {
+            clearInterval(timerID);
+            tg.sendData(JSON.stringify({ type: 'mock_test_results', info: 'Student finished formal test' }));
+        }
     </script>
 </body>
 
