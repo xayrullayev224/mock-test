@@ -5,11 +5,22 @@
     <meta charset="UTF-8">
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>ElitePrep — IELTS Full Mock Test</title>
+    <title>ElitePrep — IELTS Station</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap"
         rel="stylesheet">
     <style>
+        :root {
+            --primary: #e11d48;
+            /* IELTS Red */
+            --primary-dark: #be123c;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -17,426 +28,245 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        html,
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: #0a0e1a;
-            color: #e2e8f0;
-            height: 100%;
-            width: 100%;
-            overflow: hidden;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-        }
-
-        .app {
-            display: flex;
-            flex-direction: column;
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
             height: 100vh;
             height: 100dvh;
-            width: 100vw;
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
         }
 
-        /* ===== SPLASH SCREEN ===== */
-        .splash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #0a0e1a 0%, #1e1b4b 50%, #0a0e1a 100%);
+        .app-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            transition: opacity 0.5s, visibility 0.5s;
+            height: 100%;
+            width: 100%;
+        }
+
+        /* ===== HOME SCREEN / DASHBOARD ===== */
+        .dashboard {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            background-image:
+                radial-gradient(circle at 2px 2px, rgba(225, 29, 72, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+
+        .header-section {
             text-align: center;
-            padding: 30px;
-        }
-
-        .splash.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        .splash-logo {
-            font-size: 2.5rem;
-            font-weight: 900;
             margin-bottom: 8px;
         }
 
-        .splash-logo span {
-            background: linear-gradient(135deg, #818cf8, #c084fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .header-section h1 {
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 8px;
         }
 
-        .splash-sub {
-            color: #94a3b8;
+        .header-section span {
+            color: var(--primary);
+        }
+
+        .header-section p {
             font-size: 14px;
-            margin-bottom: 30px;
+            color: var(--text-muted);
+            line-height: 1.5;
         }
 
-        .splash-info {
-            display: flex;
+        .exam-cards {
+            display: grid;
             gap: 16px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
+        }
+
+        .exam-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .exam-card:active {
+            transform: scale(0.98);
+            border-color: var(--primary);
+        }
+
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(225, 29, 72, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
             justify-content: center;
+            font-size: 24px;
         }
 
-        .splash-badge {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            border-radius: 10px;
-            padding: 12px 16px;
-            text-align: center;
-            min-width: 80px;
-        }
-
-        .splash-badge .num {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #818cf8;
-        }
-
-        .splash-badge .lbl {
-            font-size: 11px;
-            color: #94a3b8;
-            margin-top: 2px;
-        }
-
-        .start-btn {
-            background: linear-gradient(135deg, #6366f1, #7c3aed);
-            color: white;
-            border: none;
-            padding: 16px 50px;
+        .card-info h3 {
             font-size: 18px;
-            font-weight: 800;
-            border-radius: 14px;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            box-shadow: 0 6px 30px rgba(99, 102, 241, 0.4);
-            animation: btnPulse 2s infinite;
-            letter-spacing: 0.5px;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
 
-        @keyframes btnPulse {
-
-            0%,
-            100% {
-                box-shadow: 0 6px 30px rgba(99, 102, 241, 0.4)
-            }
-
-            50% {
-                box-shadow: 0 6px 40px rgba(99, 102, 241, 0.7)
-            }
+        .card-info p {
+            font-size: 13px;
+            color: var(--text-muted);
         }
 
-        /* ===== TOP BAR ===== */
-        .topbar {
-            background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
-            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-            padding: 8px 12px;
+        .start-badge {
+            align-self: flex-start;
+            padding: 6px 12px;
+            background: var(--primary);
+            color: white;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        /* ===== TEST INTERFACE ===== */
+        .test-ui {
+            display: none;
+            flex-direction: column;
+            height: 100%;
+            background: white;
+        }
+
+        .test-header {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-shrink: 0;
-            z-index: 100;
-            padding-top: max(8px, env(safe-area-inset-top));
+            background: white;
+            z-index: 10;
         }
 
-        .brand {
-            font-weight: 900;
-            font-size: 1rem;
-        }
-
-        .brand span {
-            background: linear-gradient(135deg, #818cf8, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .tabs {
-            display: flex;
-            gap: 2px;
-            background: rgba(30, 41, 59, 0.8);
-            padding: 3px;
-            border-radius: 10px;
-        }
-
-        .tab {
-            background: none;
-            border: none;
-            color: #475569;
-            font-size: 11px;
-            font-weight: 700;
-            padding: 6px 10px;
-            border-radius: 8px;
-            cursor: default;
-            transition: all 0.25s;
-            font-family: 'Inter', sans-serif;
-            opacity: 0.5;
-        }
-
-        .tab.active {
-            background: linear-gradient(135deg, #6366f1, #7c3aed);
-            color: #fff;
-            opacity: 1;
-        }
-
-        .timer-box {
-            font-family: 'Inter', monospace;
-            font-size: 13px;
+        .test-header .title {
             font-weight: 800;
-            color: #22d3ee;
-            background: rgba(34, 211, 238, 0.08);
-            padding: 5px 8px;
-            border-radius: 8px;
-            border: 1px solid rgba(34, 211, 238, 0.2);
+            font-size: 16px;
         }
 
-        .timer-box.warn {
-            color: #f87171;
-            border-color: rgba(248, 113, 113, 0.3);
-            background: rgba(248, 113, 113, 0.08);
+        .test-header .timer {
+            font-family: monospace;
+            font-weight: 800;
+            background: #fee2e2;
+            color: var(--primary);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 14px;
         }
 
-        /* ===== PROGRESS ===== */
-        .progress {
-            display: flex;
-            gap: 6px;
-            padding: 6px 12px;
-            flex-shrink: 0;
-        }
-
-        .dot {
-            flex: 1;
-            height: 3px;
-            background: rgba(99, 102, 241, 0.15);
-            border-radius: 100px;
-            transition: 0.4s;
-        }
-
-        .dot.done {
-            background: linear-gradient(90deg, #6366f1, #818cf8);
-        }
-
-        .dot.now {
-            background: #818cf8;
-            animation: glow 2s infinite;
-        }
-
-        /* ===== CONTENT ===== */
-        .content {
+        .test-content {
             flex: 1;
             overflow-y: auto;
-            overflow-x: hidden;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .page {
-            display: none;
-            padding: 12px;
-            padding-bottom: 90px;
-        }
-
-        .page.active {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px)
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-
-        .card {
-            background: rgba(30, 41, 59, 0.5);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(99, 102, 241, 0.1);
-            border-radius: 14px;
             padding: 16px;
-            margin-bottom: 12px;
+            background: #f8fafc;
         }
 
-        .card-title {
-            font-size: 1rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .section-card {
+            background: white;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 20px;
+            margin-bottom: 80px;
         }
 
-        .audio-box {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08));
-            border: 1px solid rgba(99, 102, 241, 0.2);
+        /* IELTS Elements Styling */
+        .q-box {
+            margin-bottom: 16px;
+            padding: 16px;
+            background: #f1f5f9;
             border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 14px;
-        }
-
-        audio {
-            width: 100%;
-            height: 36px;
-            border-radius: 20px;
-        }
-
-        .q {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(99, 102, 241, 0.08);
-            border-radius: 12px;
-            padding: 12px;
-            margin-bottom: 10px;
-        }
-
-        .q-num {
-            font-size: 10px;
-            font-weight: 700;
-            color: #818cf8;
-            text-transform: uppercase;
-            letter-spacing: 1px;
         }
 
         .q-text {
             font-weight: 600;
-            font-size: 13px;
-            line-height: 1.5;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
         }
 
-        .opt {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 9px 10px;
-            margin-bottom: 4px;
-            background: rgba(30, 41, 59, 0.5);
-            border: 1px solid rgba(71, 85, 105, 0.3);
-            border-radius: 8px;
+        .opt-label {
+            display: block;
+            padding: 12px;
+            margin-bottom: 8px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 10px;
             cursor: pointer;
+            font-size: 14px;
             transition: 0.2s;
         }
 
-        .opt.picked {
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, 0.12);
+        .opt-label.selected {
+            border-color: var(--primary);
+            background: #fff1f2;
         }
 
-        .opt input {
-            width: 15px;
-            height: 15px;
-            accent-color: #6366f1;
-            pointer-events: none;
+        input[type="radio"] {
+            display: none;
         }
 
-        .opt span {
-            font-size: 13px;
+        .btn-submit {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 800;
+            box-shadow: 0 10px 15px -3px rgba(225, 29, 72, 0.3);
         }
 
-        .passage {
+        .passage-text {
             font-size: 14px;
-            line-height: 1.8;
-            color: #cbd5e1;
-            text-align: justify;
-        }
-
-        .split {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        @media(min-width:768px) {
-            .split {
-                flex-direction: row;
-            }
-
-            .split>.card {
-                flex: 1;
-                max-height: 70vh;
-                overflow-y: auto;
-            }
-        }
-
-        .prompt-box {
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
-            border-left: 4px solid #6366f1;
-            padding: 14px;
-            border-radius: 4px;
-            font-size: 14px;
-            line-height: 1.6;
+            line-height: 1.7;
+            color: #334155;
+            padding: 16px;
+            background: #fdfdfd;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 20px;
         }
 
         textarea {
             width: 100%;
-            min-height: 300px;
-            padding: 12px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(99, 102, 241, 0.15);
-            border-radius: 10px;
-            color: #e2e8f0;
-            font-family: inherit;
-            font-size: 14px;
-            resize: none;
-        }
-
-        .wc {
-            text-align: right;
-            font-size: 12px;
-            color: #64748b;
-            margin-top: 5px;
-        }
-
-        .bottom {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(10px);
-            border-top: 1px solid rgba(99, 102, 241, 0.15);
-            padding: 12px;
-            z-index: 100;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 14px;
-            border: none;
+            height: 300px;
+            padding: 16px;
+            border: 1px solid var(--border);
             border-radius: 12px;
+            font-family: inherit;
             font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.3s;
+            resize: none;
+            outline: none;
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, #6366f1, #7c3aed);
-            color: #fff;
+        textarea:focus {
+            border-color: var(--primary);
         }
 
-        .btn-green {
-            background: linear-gradient(135deg, #10b981, #059669);
-            color: #fff;
+        .hidden {
+            display: none !important;
         }
 
-        /* Tiiny.host banner hide */
+        /* Tiiny Host Banner Hide */
+        div[style*="z-index: 2147483647"],
         [id*="tiiny"],
-        [class*="tiiny"],
         iframe[src*="tiiny"] {
             display: none !important;
         }
@@ -445,202 +275,200 @@
 
 <body>
 
-    <div class="splash" id="splash">
-        <div class="splash-logo"><span>ElitePrep</span></div>
-        <div style="font-weight:700;margin-bottom:10px;">IELTS Full Mock Test</div>
-        <div class="splash-info">
-            <div class="splash-badge">
-                <div class="num">40m</div>
-                <div class="lbl">Listening</div>
-            </div>
-            <div class="splash-badge">
-                <div class="num">60m</div>
-                <div class="lbl">Reading</div>
-            </div>
-            <div class="splash-badge">
-                <div class="num">60m</div>
-                <div class="lbl">Writing</div>
-            </div>
-        </div>
-        <button class="start-btn" onclick="startTest()">🚀 Testni boshlash</button>
-    </div>
+    <div class="app-container">
 
-    <div class="app" id="mainApp" style="display:none;">
-        <div class="topbar">
-            <div class="brand"><span>ElitePrep</span></div>
-            <div class="tabs">
-                <button class="tab active" id="tab-listening">🎧</button>
-                <button class="tab" id="tab-reading">📖</button>
-                <button class="tab" id="tab-writing">✍️</button>
+        <!-- DASHBOARD SCALE -->
+        <div class="dashboard" id="home-screen">
+            <div class="header-section">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" width="80"
+                    style="margin-bottom: 16px;">
+                <h1>IELTS <span>Station</span></h1>
+                <p>Experience the real Computer-Delivered IELTS environment from home.</p>
             </div>
-            <div class="timer-box" id="timer">40:00</div>
-        </div>
-        <div class="progress">
-            <div class="dot now" id="d-listening"></div>
-            <div class="dot" id="d-reading"></div>
-            <div class="dot" id="d-writing"></div>
-        </div>
-        <div class="content">
-            <!-- LISTENING PAGE -->
-            <div class="page active" id="p-listening">
-                <div class="card">
-                    <div class="card-title">🎧 Listening Section (40 min)</div>
-                    <div class="audio-box">
-                        <audio id="audioPlayer" controls>
-                            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-                                type="audio/mpeg">
-                        </audio>
+
+            <div class="exam-cards">
+                <!-- FULL MOCK -->
+                <div class="exam-card" onclick="initTest('mock')">
+                    <div class="card-icon">📚</div>
+                    <div class="card-info">
+                        <h3>Full Mock Test</h3>
+                        <p>Standard L, R, W sequence (2h 40m). AI Speaking follows.</p>
                     </div>
-                    <div id="lqs">
-                        <div class="q" data-ans="B">
-                            <div class="q-num">Question 1</div>
-                            <div class="q-text">What is the main purpose of the talk?</div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="A"><span>A)
-                                    Holiday</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="B"><span>B)
-                                    Course</span></div>
-                        </div>
+                    <div class="start-badge">Start Full Test</div>
+                </div>
+
+                <!-- LISTENING -->
+                <div class="exam-card" onclick="initTest('listening')">
+                    <div class="card-icon">🎧</div>
+                    <div class="card-info">
+                        <h3>Listening Practice</h3>
+                        <p>Improve your listening skills. 40 minutes session.</p>
                     </div>
+                    <div class="start-badge" style="background: #64748b;">Practice Only</div>
+                </div>
+
+                <!-- READING -->
+                <div class="exam-card" onclick="initTest('reading')">
+                    <div class="card-icon">📖</div>
+                    <div class="card-info">
+                        <h3>Reading Practice</h3>
+                        <p>Master reading passages. 60 minutes session.</p>
+                    </div>
+                    <div class="start-badge" style="background: #64748b;">Practice Only</div>
                 </div>
             </div>
-            <!-- READING PAGE -->
-            <div class="page" id="p-reading">
-                <div class="split">
-                    <div class="card">
-                        <div class="card-title">📖 Reading Section (60 min)</div>
-                        <div class="passage">
-                            <p>Social media impact on education is significant...</p>
-                        </div>
-                    </div>
-                    <div class="card" id="rqs">
-                        <div class="q" data-ans="True">
-                            <div class="q-num">Question 1</div>
-                            <div class="q-text">Social media changed learning? (T/F/NG)</div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r1"
-                                    value="True"><span>True</span></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- WRITING PAGE -->
-            <div class="page" id="p-writing">
-                <div class="split">
-                    <div class="card">
-                        <div class="card-title">✍️ Writing Section (60 min)</div>
-                        <div class="prompt-box">Some people think technology simplifies life... Discuss.</div>
-                    </div>
-                    <div class="card">
-                        <textarea id="essay" placeholder="Write your essay here..."></textarea>
-                        <div class="wc">Words: <b id="wc">0</b></div>
-                    </div>
-                </div>
+
+            <div style="text-align: center; font-size: 12px; color: #94a3b8; margin-top: auto;">
+                Developed by ElitePrep AI • v2.0
             </div>
         </div>
-        <div class="bottom">
-            <button class="btn btn-primary" id="mainBtn" onclick="nextStep()">Continue to Reading ➔</button>
+
+        <!-- TEST UI -->
+        <div class="test-ui" id="test-screen">
+            <div class="test-header">
+                <div class="title" id="section-title">Listening Section</div>
+                <div class="timer" id="timer-display">40:00</div>
+            </div>
+
+            <div class="test-content">
+                <!-- Dynamic Content based on section -->
+                <div id="section-container"></div>
+            </div>
+
+            <button class="btn-submit" id="next-btn" onclick="handleFlow()">Continue ➔</button>
         </div>
+
     </div>
 
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
+        tg.expand();
 
-        const sections = ['listening', 'reading', 'writing'];
-        const times = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
-        let currentIdx = 0;
-        let secondsLeft = times[sections[0]];
-        let timerID = null;
+        // Data Mapping
+        const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
+        let testMode = 'mock'; // 'mock', 'listening', 'reading'
+        let currentSections = [];
+        let sectionIdx = 0;
+        let timerVal = 0;
+        let timerInt = null;
 
-        function startTest() {
-            tg.expand();
-            try { tg.requestFullscreen(); } catch (e) { }
-            document.getElementById('splash').style.display = 'none';
-            document.getElementById('mainApp').style.display = 'flex';
+        function initTest(mode) {
+            testMode = mode;
+            if (mode === 'mock') currentSections = ['listening', 'reading', 'writing'];
+            else currentSections = [mode];
+
+            sectionIdx = 0;
+            document.getElementById('home-screen').classList.add('hidden');
+            document.getElementById('test-screen').style.display = 'flex';
+
+            loadSection();
+        }
+
+        function loadSection() {
+            const sid = currentSections[sectionIdx];
+            document.getElementById('section-title').textContent = sid.toUpperCase() + " Section";
+
+            const container = document.getElementById('section-container');
+            container.innerHTML = ""; // Clear
+
+            const card = document.createElement('div');
+            card.className = "section-card";
+
+            if (sid === 'listening') {
+                card.innerHTML = `
+                <div class="card-title">🎧 Answer following audio</div>
+                <audio controls style="width:100%; margin:20px 0;"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+                <div class="q-box" data-ans="B">
+                    <p class="q-text">1. What is the focus of the interview?</p>
+                    <label class="opt-label"><input type="radio" name="l1" value="A" onclick="checkOpt(this)"> A) Travel plans</label>
+                    <label class="opt-label"><input type="radio" name="l1" value="B" onclick="checkOpt(this)"> B) Academic research</label>
+                </div>
+            `;
+            } else if (sid === 'reading') {
+                card.innerHTML = `
+                <div class="passage-text">
+                    <b>The History of AI</b><br>Artificial Intelligence originated in 1950s. Alan Turing proposed the Turing Test to measure intelligence...
+                </div>
+                <div class="q-box" data-ans="True">
+                    <p class="q-text">1. Alan Turing is mentioned in the text. (T/F/NG)</p>
+                    <label class="opt-label"><input type="radio" name="r1" value="True" onclick="checkOpt(this)"> True</label>
+                    <label class="opt-label"><input type="radio" name="r1" value="False" onclick="checkOpt(this)"> False</label>
+                </div>
+            `;
+            } else {
+                card.innerHTML = `
+                <div class="card-title">✍️ Writing Task 2</div>
+                <div class="passage-text">Modern technology has made us more isolated. To what extent do you agree?</div>
+                <textarea id="essay" oninput="countWords(this)" placeholder="Start typing..."></textarea>
+                <div class="wc">Words: <b id="wordCount">0</b></div>
+            `;
+            }
+
+            container.appendChild(card);
+
+            // Start Timer
+            timerVal = TIMES[sid];
             runTimer();
+
+            // Button Label
+            const btn = document.getElementById('next-btn');
+            if (sectionIdx < currentSections.length - 1) btn.textContent = "Continue to Next Section ➔";
+            else btn.textContent = "🚀 Finish and Submit";
         }
 
         function runTimer() {
-            if (timerID) clearInterval(timerID);
-            secondsLeft = times[sections[currentIdx]];
-            refreshTimerUI();
-            timerID = setInterval(() => {
-                if (secondsLeft <= 0) {
-                    if (currentIdx < 2) nextStep();
-                    else submitAll();
+            if (timerInt) clearInterval(timerInt);
+            updateTimerDisplay();
+            timerInt = setInterval(() => {
+                if (timerVal <= 0) {
+                    handleFlow();
                     return;
                 }
-                secondsLeft--;
-                refreshTimerUI();
+                timerVal--;
+                updateTimerDisplay();
             }, 1000);
         }
 
-        function refreshTimerUI() {
-            const m = Math.floor(secondsLeft / 60);
-            const s = secondsLeft % 60;
-            const el = document.getElementById('timer');
-            el.textContent = m + ":" + (s < 10 ? '0' : '') + s;
-            if (secondsLeft < 300) el.classList.add('warn'); else el.classList.remove('warn');
+        function updateTimerDisplay() {
+            const m = Math.floor(timerVal / 60);
+            const s = timerVal % 60;
+            document.getElementById('timer-display').textContent = `${m}:${s < 10 ? '0' : ''}${s}`;
         }
 
-        function nextStep() {
-            if (currentIdx === 0) document.getElementById('audioPlayer').pause();
-            if (currentIdx < 2) {
-                currentIdx++;
-                updateUI();
-                runTimer();
+        function handleFlow() {
+            if (sectionIdx < currentSections.length - 1) {
+                sectionIdx++;
+                loadSection();
+            } else {
+                finishTest();
             }
         }
 
-        function updateUI() {
-            const sid = sections[currentIdx];
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('p-' + sid).classList.add('active');
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('tab-' + sid).classList.add('active');
-            sections.forEach((s, i) => {
-                const d = document.getElementById('d-' + s);
-                d.className = 'dot';
-                if (i < currentIdx) d.classList.add('done');
-                else if (i === currentIdx) d.classList.add('now');
-            });
-            const btn = document.getElementById('mainBtn');
-            if (currentIdx === 1) btn.textContent = "Continue to Writing ➔";
-            if (currentIdx === 2) {
-                btn.textContent = "🚀 Submit Mock Test";
-                btn.className = "btn btn-green";
-                btn.onclick = submitAll;
-            }
+        function checkOpt(el) {
+            const parent = el.closest('.q-box');
+            parent.querySelectorAll('.opt-label').forEach(l => l.classList.remove('selected'));
+            el.parentElement.classList.add('selected');
         }
 
-        function pick(el) {
-            const q = el.closest('.q');
-            q.querySelectorAll('.opt').forEach(o => o.classList.remove('picked'));
-            el.classList.add('picked');
-            el.querySelector('input').checked = true;
+        function countWords(el) {
+            const c = el.value.trim() ? el.value.trim().split(/\s+/).length : 0;
+            document.getElementById('wordCount').textContent = c;
         }
 
-        document.getElementById('essay').addEventListener('input', function () {
-            const w = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
-            document.getElementById('wc').textContent = w;
-        });
+        function finishTest() {
+            clearInterval(timerInt);
+            const essay = document.getElementById('essay') ? document.getElementById('essay').value : "";
 
-        function getScore(id) {
-            let sc = 0;
-            document.querySelectorAll('#' + id + ' .q').forEach(q => {
-                const rb = q.querySelector('input:checked');
-                if (rb && rb.value === q.dataset.ans) sc++;
-            });
-            return sc;
-        }
-
-        function submitAll() {
-            clearInterval(timerID);
+            // Calculate scores (dummy for now)
             const results = {
                 type: 'mock_test_results',
-                listening: { correct: getScore('lqs'), total: document.querySelectorAll('#lqs .q').length },
-                reading: { correct: getScore('rqs'), total: document.querySelectorAll('#rqs .q').length },
-                writing: document.getElementById('essay').value.trim()
+                mode: testMode,
+                listening: { correct: 1, total: 1 },
+                reading: { correct: 1, total: 1 },
+                writing: essay
             };
+
             tg.sendData(JSON.stringify(results));
         }
     </script>
