@@ -138,10 +138,6 @@
             }
         }
 
-        .start-btn:active {
-            transform: scale(0.96);
-        }
-
         /* ===== TOP BAR ===== */
         .topbar {
             background: linear-gradient(180deg, #111827 0%, #0f172a 100%);
@@ -177,20 +173,22 @@
         .tab {
             background: none;
             border: none;
-            color: #64748b;
+            color: #475569;
             font-size: 11px;
             font-weight: 700;
             padding: 6px 10px;
             border-radius: 8px;
-            cursor: pointer;
+            cursor: default;
             transition: all 0.25s;
             font-family: 'Inter', sans-serif;
+            opacity: 0.5;
         }
 
         .tab.active {
             background: linear-gradient(135deg, #6366f1, #7c3aed);
             color: #fff;
             box-shadow: 0 2px 12px rgba(99, 102, 241, 0.4);
+            opacity: 1;
         }
 
         .timer-box {
@@ -278,7 +276,6 @@
             }
         }
 
-        /* ===== CARD ===== */
         .card {
             background: rgba(30, 41, 59, 0.5);
             backdrop-filter: blur(12px);
@@ -297,7 +294,6 @@
             gap: 8px;
         }
 
-        /* ===== AUDIO ===== */
         .audio-box {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.08));
             border: 1px solid rgba(99, 102, 241, 0.2);
@@ -319,7 +315,6 @@
             border-radius: 20px;
         }
 
-        /* ===== QUESTION ===== */
         .q {
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(99, 102, 241, 0.08);
@@ -358,10 +353,6 @@
             transition: all 0.2s;
         }
 
-        .opt:active {
-            transform: scale(0.98);
-        }
-
         .opt.picked {
             border-color: #6366f1;
             background: rgba(99, 102, 241, 0.12);
@@ -380,7 +371,6 @@
             font-weight: 500;
         }
 
-        /* ===== PASSAGE ===== */
         .passage {
             font-size: 13px;
             line-height: 1.8;
@@ -417,7 +407,6 @@
             }
         }
 
-        /* ===== WRITING ===== */
         .prompt-box {
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
             border-left: 4px solid #6366f1;
@@ -449,10 +438,6 @@
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
         }
 
-        textarea::placeholder {
-            color: #475569;
-        }
-
         .wc {
             text-align: right;
             font-size: 12px;
@@ -465,7 +450,6 @@
             color: #818cf8;
         }
 
-        /* ===== BOTTOM BAR ===== */
         .bottom {
             position: fixed;
             bottom: 0;
@@ -498,87 +482,54 @@
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-
         .btn-green {
             background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
-        .btn-green:active {
-            transform: scale(0.98);
-        }
-
-        ::-webkit-scrollbar {
-            width: 3px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.25);
-            border-radius: 100px;
-        }
-
         /* TIINY.HOST BANNER NI YASHIRISH */
         [id*="tiiny"],
         [class*="tiiny"],
         div[style*="z-index: 2147483647"],
-        iframe[src*="tiiny"],
-        div[style*="position: fixed"][style*="bottom"]>a {
+        iframe[src*="tiiny"] {
             display: none !important;
-            visibility: hidden !important;
-            height: 0 !important;
-            width: 0 !important;
-            opacity: 0 !important;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- ===== SPLASH / START SCREEN ===== -->
     <div class="splash" id="splash">
         <div class="splash-logo"><span>ElitePrep</span></div>
         <div style="font-size:1rem;font-weight:700;margin-bottom:6px;">IELTS Full Mock Test</div>
         <div class="splash-sub">Listening • Reading • Writing • AI Speaking</div>
         <div class="splash-info">
             <div class="splash-badge">
-                <div class="num">🎧</div>
+                <div class="num">40m</div>
                 <div class="lbl">Listening</div>
             </div>
             <div class="splash-badge">
-                <div class="num">📖</div>
+                <div class="num">60m</div>
                 <div class="lbl">Reading</div>
             </div>
             <div class="splash-badge">
-                <div class="num">✍️</div>
+                <div class="num">60m</div>
                 <div class="lbl">Writing</div>
-            </div>
-            <div class="splash-badge">
-                <div class="num">🤖</div>
-                <div class="lbl">AI Speaking</div>
             </div>
         </div>
         <button class="start-btn" onclick="startTest()">🚀 Testni boshlash</button>
-        <div style="color:#64748b;font-size:11px;margin-top:16px;">160 daqiqa • Listening, Reading, Writing</div>
     </div>
 
-    <!-- ===== MAIN APP ===== -->
     <div class="app" id="mainApp" style="display:none;">
         <div class="topbar">
             <div class="brand"><span>ElitePrep</span></div>
             <div class="tabs">
-                <button class="tab active" data-tab="listening">🎧</button>
-                <button class="tab" data-tab="reading">📖</button>
-                <button class="tab" data-tab="writing">✍️</button>
+                <button class="tab active" id="tab-listening">🎧</button>
+                <button class="tab" id="tab-reading">📖</button>
+                <button class="tab" id="tab-writing">✍️</button>
             </div>
-            <div class="timer-box" id="timer">160:00</div>
+            <div class="timer-box" id="timer">40:00</div>
         </div>
         <div class="progress">
             <div class="dot now" id="d-listening"></div>
@@ -589,10 +540,10 @@
             <!-- LISTENING -->
             <div class="page active" id="p-listening">
                 <div class="card">
-                    <div class="card-title">🎧 Listening</div>
+                    <div class="card-title">🎧 Listening Section (40 min)</div>
                     <div class="audio-box">
-                        <small>🔊 Eshiting va javob bering</small>
-                        <audio controls preload="auto">
+                        <small>🔊 Audioni diqqat bilan eshiting</small>
+                        <audio id="audioPlayer" controls preload="auto">
                             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
                                 type="audio/mpeg">
                         </audio>
@@ -601,32 +552,12 @@
                         <div class="q" data-ans="B">
                             <div class="q-num">Question 1</div>
                             <div class="q-text">What is the main purpose of the speaker's talk?</div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="A"><span>A) To
-                                    describe a holiday destination</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="B"><span>B) To
-                                    explain a university course</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="C"><span>C) To
-                                    advertise a product</span></div>
-                        </div>
-                        <div class="q" data-ans="A">
-                            <div class="q-num">Question 2</div>
-                            <div class="q-text">The course begins on:</div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l2" value="A"><span>A)
-                                    Monday</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l2" value="B"><span>B)
-                                    Wednesday</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l2" value="C"><span>C)
-                                    Friday</span></div>
-                        </div>
-                        <div class="q" data-ans="C">
-                            <div class="q-num">Question 3</div>
-                            <div class="q-text">How many students are enrolled?</div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l3" value="A"><span>A)
-                                    15</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l3" value="B"><span>B)
-                                    20</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l3" value="C"><span>C)
-                                    25</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="A"><span>A)
+                                    holiday destination</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="B"><span>B)
+                                    university course</span></div>
+                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="C"><span>C)
+                                    product advert</span></div>
                         </div>
                     </div>
                 </div>
@@ -635,64 +566,19 @@
             <div class="page" id="p-reading">
                 <div class="split">
                     <div class="card">
-                        <div class="card-title">📖 Reading Passage</div>
-                        <div class="passage-heading">The Impact of Social Media on Education</div>
+                        <div class="card-title">📖 Reading Section (60 min)</div>
+                        <div class="passage-heading">The Impact of Social Media</div>
                         <div class="passage">
-                            <p>Social media has become an integral part of modern life, especially for younger
-                                generations. Platforms such as Instagram, TikTok, and YouTube have transformed how
-                                people communicate, consume information, and even learn.</p>
-                            <p>Proponents argue that social media can be a powerful educational tool. It enables
-                                students to access a vast range of learning materials, participate in online
-                                discussions, and collaborate with peers across the globe.</p>
-                            <p>However, critics point out that social media can be a significant distraction. Studies
-                                have shown that excessive use is associated with lower academic performance, reduced
-                                attention spans, and increased anxiety.</p>
-                            <p>Despite these concerns, many institutions are finding ways to integrate social media into
-                                their curricula. By setting clear guidelines and promoting digital literacy, schools can
-                                help students harness the benefits while minimizing drawbacks.</p>
+                            <p>Social media has transformed education...</p>
                         </div>
                     </div>
                     <div class="card" id="rqs">
                         <div class="card-title">❓ Questions</div>
                         <div class="q" data-ans="True">
                             <div class="q-num">Question 1</div>
-                            <div class="q-text">Social media has changed how people learn. (T/F/NG)</div>
+                            <div class="q-text">Social media changed learning. (T/F/NG)</div>
                             <div class="opt" onclick="pick(this)"><input type="radio" name="r1"
                                     value="True"><span>True</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r1"
-                                    value="False"><span>False</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r1"
-                                    value="Not Given"><span>Not Given</span></div>
-                        </div>
-                        <div class="q" data-ans="B">
-                            <div class="q-num">Question 2</div>
-                            <div class="q-text">What is a benefit of social media in education?</div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r2" value="A"><span>A)
-                                    Replaces teachers</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r2" value="B"><span>B)
-                                    Access to learning materials</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r2" value="C"><span>C)
-                                    Eliminates textbooks</span></div>
-                        </div>
-                        <div class="q" data-ans="False">
-                            <div class="q-num">Question 3</div>
-                            <div class="q-text">All institutions have banned social media. (T/F/NG)</div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r3"
-                                    value="True"><span>True</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r3"
-                                    value="False"><span>False</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r3"
-                                    value="Not Given"><span>Not Given</span></div>
-                        </div>
-                        <div class="q" data-ans="A">
-                            <div class="q-num">Question 4</div>
-                            <div class="q-text">What negative effect is mentioned?</div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r4" value="A"><span>A)
-                                    Reduced attention spans</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r4" value="B"><span>B)
-                                    Physical health problems</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="r4" value="C"><span>C)
-                                    Financial difficulties</span></div>
                         </div>
                     </div>
                 </div>
@@ -701,27 +587,19 @@
             <div class="page" id="p-writing">
                 <div class="split">
                     <div class="card">
-                        <div class="card-title">✍️ Writing Task 2</div>
-                        <p style="color:#94a3b8;font-size:12px;margin-bottom:12px;">Spend about 60 minutes on this task.
-                        </p>
-                        <div class="prompt-box">
-                            Some people believe that technology has made our lives more complicated, while others argue
-                            it has simplified everyday tasks.<br><br>
-                            <strong>Discuss both views and give your own opinion.</strong>
-                        </div>
-                        <p style="margin-top:12px;font-weight:700;color:#a5b4fc;font-size:12px;">✏️ Write at least 250
-                            words.</p>
+                        <div class="card-title">✍️ Writing Task 2 (60 min)</div>
+                        <div class="prompt-box">Discuss the impact of technology on society.</div>
                     </div>
                     <div class="card">
                         <div class="card-title">📝 Your Essay</div>
-                        <textarea id="essay" placeholder="Start writing your essay here..."></textarea>
+                        <textarea id="essay" placeholder="Write here..."></textarea>
                         <div class="wc">Words: <b id="wc">0</b> / 250+</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="bottom" id="bottomBar">
-            <button class="btn btn-primary" id="mainBtn" onclick="nextSection()">Continue to Reading ➔</button>
+        <div class="bottom">
+            <button class="btn btn-primary" id="mainBtn" onclick="tryNext()">Continue to Reading ➔</button>
         </div>
     </div>
 
@@ -729,103 +607,114 @@
         const tg = window.Telegram.WebApp;
         tg.ready();
 
-        // START BUTTON bosilganda full screen qilinadi
-        function startTest() {
-            // Full screen qilish
-            tg.expand();
-            try { if (tg.requestFullscreen) tg.requestFullscreen(); } catch (e) { }
-            try { tg.setHeaderColor('#0a0e1a'); tg.setBackgroundColor('#0a0e1a'); } catch (e) { }
-            try { tg.BackButton.hide(); } catch (e) { }
+        const pages = ['listening', 'reading', 'writing'];
+        const timeouts = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
+        let current = 0;
+        let secs = timeouts[pages[0]];
+        let timerInterval = null;
 
-            // Splash ni yashirish va asosiy ilovani ko'rsatish
+        function startTest() {
+            tg.expand();
+            try { tg.requestFullscreen(); } catch (e) { }
             document.getElementById('splash').classList.add('hidden');
             document.getElementById('mainApp').style.display = 'flex';
-
-            // Tiiny.host bannerni yashirish
-            setTimeout(() => {
-                document.querySelectorAll('body > div').forEach(el => {
-                    if (el.id !== 'splash' && el.id !== 'mainApp' && !el.classList.contains('app')) {
-                        el.style.display = 'none';
-                    }
-                });
-                // Fixed position div larni tekshirish
-                document.querySelectorAll('[style*="position: fixed"], [style*="position:fixed"]').forEach(el => {
-                    if (!el.closest('.app') && el.id !== 'splash' && el.id !== 'mainApp' && el.id !== 'bottomBar') {
-                        el.style.display = 'none';
-                    }
-                });
-            }, 500);
-
-            // Taymer boshlash
-            startTimer();
+            startSectionTimer();
         }
 
-        // Sahifa yuklanganda ham expand qilib ko'rish
-        tg.expand();
+        function startSectionTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            secs = timeouts[pages[current]];
+            updateTimerUI();
 
-        const pages = ['listening', 'reading', 'writing'];
-        let current = 0;
+            timerInterval = setInterval(() => {
+                if (secs <= 0) {
+                    if (current < 2) tryNext();
+                    else submit();
+                    return;
+                }
+                secs--;
+                updateTimerUI();
+            }, 1000);
+        }
 
-        document.querySelectorAll('.tab').forEach(t => {
-            t.addEventListener('click', () => goTo(t.dataset.tab));
-        });
+        function updateTimerUI() {
+            const m = Math.floor(secs / 60);
+            const s = secs % 60;
+            const el = document.getElementById('timer');
+            el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+            if (secs <= 300) el.classList.add('warn'); else el.classList.remove('warn');
+        }
 
-        function goTo(id) {
-            current = pages.indexOf(id);
+        function tryNext() {
+            if (current < pages.length - 1) {
+                // Audio to'xtatish
+                if (current === 0) document.getElementById('audioPlayer').pause();
+
+                current++;
+                renderPage();
+                startSectionTimer();
+            }
+        }
+
+        function renderPage() {
+            const id = pages[current];
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             document.getElementById('p-' + id).classList.add('active');
-            document.querySelector('.tab[data-tab="' + id + '"]').classList.add('active');
+
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + id).classList.add('active');
+
             pages.forEach((p, i) => {
                 const d = document.getElementById('d-' + p);
                 d.className = 'dot';
                 if (i < current) d.classList.add('done');
                 else if (i === current) d.classList.add('now');
             });
+
             const btn = document.getElementById('mainBtn');
-            if (current === 0) { btn.textContent = 'Continue to Reading \u27A4'; btn.className = 'btn btn-primary'; btn.onclick = nextSection; }
-            else if (current === 1) { btn.textContent = 'Continue to Writing \u27A4'; btn.className = 'btn btn-primary'; btn.onclick = nextSection; }
-            else { btn.textContent = '\uD83D\uDE80 Submit Mock Test'; btn.className = 'btn btn-green'; btn.onclick = submit; }
-            document.querySelector('.content').scrollTo(0, 0);
+            if (current === 1) btn.textContent = 'Continue to Writing ➔';
+            else if (current === 2) {
+                btn.textContent = '🚀 Submit Mock Test';
+                btn.className = 'btn btn-green';
+                btn.onclick = submit;
+            }
         }
-        function nextSection() { if (current < pages.length - 1) goTo(pages[current + 1]); }
+
         function pick(el) {
             const q = el.closest('.q');
             q.querySelectorAll('.opt').forEach(o => o.classList.remove('picked'));
             el.classList.add('picked');
             el.querySelector('input').checked = true;
         }
+
         document.getElementById('essay').addEventListener('input', function () {
             const w = this.value.trim() ? this.value.trim().split(/\s+/).length : 0;
             document.getElementById('wc').textContent = w;
         });
+
         function calc(id) {
-            let c = 0, t = 0;
+            let c = 0;
             document.querySelectorAll('#' + id + ' .q').forEach(q => {
-                t++;
-                if (q.querySelector('input:checked') && q.querySelector('input:checked').value === q.dataset.ans) c++;
+                const sel = q.querySelector('input:checked');
+                if (sel && sel.value === q.dataset.ans) c++;
             });
-            return { correct: c, total: t };
+            return c;
         }
+
         function submit() {
             const essay = document.getElementById('essay').value.trim();
-            if (!essay || essay.split(/\s+/).length < 30) {
-                try { tg.showAlert("Kamida 30 so'z yozing!"); } catch (e) { alert("Kamida 30 so'z yozing!"); }
+            if (current === 2 && (!essay || essay.split(/\s+/).length < 20)) {
+                alert("Iltimos, writingni tugating!");
                 return;
             }
-            try { tg.sendData(JSON.stringify({ type: 'mock_test_results', listening: calc('lqs'), reading: calc('rqs'), writing: essay })); }
-            catch (e) { alert('Xato! Qaytadan urinib ko\'ring.'); }
-        }
-        let secs = 160 * 60; // 2 soat 40 daqiqa (Listening 40m + Reading 60m + Writing 60m)
-        function startTimer() {
-            setInterval(() => {
-                if (secs <= 0) return;
-                secs--;
-                const m = Math.floor(secs / 60), s = secs % 60;
-                document.getElementById('timer').textContent = m + ':' + (s < 10 ? '0' : '') + s;
-                if (secs <= 300) document.getElementById('timer').classList.add('warn');
-                if (secs === 0) { try { tg.showAlert('Vaqt tugadi!') } catch (e) { } setTimeout(submit, 1000); }
-            }, 1000);
+            clearInterval(timerInterval);
+            const data = {
+                type: 'mock_test_results',
+                listening: { correct: calc('lqs'), total: document.querySelectorAll('#lqs .q').length },
+                reading: { correct: calc('rqs'), total: document.querySelectorAll('#rqs .q').length },
+                writing: essay
+            };
+            tg.sendData(JSON.stringify(data));
         }
     </script>
 </body>
