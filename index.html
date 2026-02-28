@@ -153,7 +153,7 @@
 
         .brand {
             font-weight: 900;
-            font-size: 0.9rem;
+            font-size: 1rem;
         }
 
         .brand span {
@@ -187,7 +187,6 @@
         .tab.active {
             background: linear-gradient(135deg, #6366f1, #7c3aed);
             color: #fff;
-            box-shadow: 0 2px 12px rgba(99, 102, 241, 0.4);
             opacity: 1;
         }
 
@@ -233,18 +232,6 @@
             animation: glow 2s infinite;
         }
 
-        @keyframes glow {
-
-            0%,
-            100% {
-                opacity: 1
-            }
-
-            50% {
-                opacity: 0.4
-            }
-        }
-
         /* ===== CONTENT ===== */
         .content {
             flex: 1;
@@ -257,11 +244,11 @@
             display: none;
             padding: 12px;
             padding-bottom: 90px;
-            animation: slideUp 0.3s ease;
         }
 
         .page.active {
             display: block;
+            animation: slideUp 0.3s ease;
         }
 
         @keyframes slideUp {
@@ -302,13 +289,6 @@
             margin-bottom: 14px;
         }
 
-        .audio-box small {
-            color: #94a3b8;
-            font-size: 11px;
-            display: block;
-            margin-bottom: 6px;
-        }
-
         audio {
             width: 100%;
             height: 36px;
@@ -321,7 +301,6 @@
             border-radius: 12px;
             padding: 12px;
             margin-bottom: 10px;
-            transition: 0.2s;
         }
 
         .q-num {
@@ -330,7 +309,6 @@
             color: #818cf8;
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-bottom: 4px;
         }
 
         .q-text {
@@ -350,7 +328,7 @@
             border: 1px solid rgba(71, 85, 105, 0.3);
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: 0.2s;
         }
 
         .opt.picked {
@@ -362,31 +340,18 @@
             width: 15px;
             height: 15px;
             accent-color: #6366f1;
-            flex-shrink: 0;
             pointer-events: none;
         }
 
         .opt span {
-            font-size: 12px;
-            font-weight: 500;
+            font-size: 13px;
         }
 
         .passage {
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.8;
             color: #cbd5e1;
-        }
-
-        .passage p {
-            margin-bottom: 10px;
             text-align: justify;
-        }
-
-        .passage-heading {
-            color: #a5b4fc;
-            font-weight: 800;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
         }
 
         .split {
@@ -402,7 +367,7 @@
 
             .split>.card {
                 flex: 1;
-                max-height: 75vh;
+                max-height: 70vh;
                 overflow-y: auto;
             }
         }
@@ -411,43 +376,29 @@
             background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
             border-left: 4px solid #6366f1;
             padding: 14px;
-            border-radius: 0 12px 12px 0;
+            border-radius: 4px;
             font-size: 14px;
-            line-height: 1.7;
-            font-weight: 500;
+            line-height: 1.6;
         }
 
         textarea {
             width: 100%;
-            min-height: 250px;
+            min-height: 300px;
             padding: 12px;
-            font-family: 'Inter', sans-serif;
-            font-size: 13px;
-            line-height: 1.6;
             background: rgba(15, 23, 42, 0.6);
             border: 1px solid rgba(99, 102, 241, 0.15);
             border-radius: 10px;
             color: #e2e8f0;
-            resize: vertical;
-            transition: 0.2s;
-        }
-
-        textarea:focus {
-            outline: none;
-            border-color: #6366f1;
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+            font-family: inherit;
+            font-size: 14px;
+            resize: none;
         }
 
         .wc {
             text-align: right;
             font-size: 12px;
             color: #64748b;
-            margin-top: 4px;
-            font-weight: 600;
-        }
-
-        .wc b {
-            color: #818cf8;
+            margin-top: 5px;
         }
 
         .bottom {
@@ -456,42 +407,36 @@
             left: 0;
             right: 0;
             background: rgba(15, 23, 42, 0.95);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(10px);
             border-top: 1px solid rgba(99, 102, 241, 0.15);
-            padding: 10px 12px;
-            padding-bottom: max(10px, env(safe-area-inset-bottom));
+            padding: 12px;
             z-index: 100;
         }
 
         .btn {
-            display: block;
             width: 100%;
-            padding: 13px;
+            padding: 14px;
             border: none;
             border-radius: 12px;
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.25s;
-            font-family: 'Inter', sans-serif;
+            transition: 0.3s;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #6366f1, #7c3aed);
             color: #fff;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
 
         .btn-green {
             background: linear-gradient(135deg, #10b981, #059669);
             color: #fff;
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
         }
 
-        /* TIINY.HOST BANNER NI YASHIRISH */
+        /* Tiiny.host banner hide */
         [id*="tiiny"],
         [class*="tiiny"],
-        div[style*="z-index: 2147483647"],
         iframe[src*="tiiny"] {
             display: none !important;
         }
@@ -502,8 +447,7 @@
 
     <div class="splash" id="splash">
         <div class="splash-logo"><span>ElitePrep</span></div>
-        <div style="font-size:1rem;font-weight:700;margin-bottom:6px;">IELTS Full Mock Test</div>
-        <div class="splash-sub">Listening • Reading • Writing • AI Speaking</div>
+        <div style="font-weight:700;margin-bottom:10px;">IELTS Full Mock Test</div>
         <div class="splash-info">
             <div class="splash-badge">
                 <div class="num">40m</div>
@@ -537,13 +481,12 @@
             <div class="dot" id="d-writing"></div>
         </div>
         <div class="content">
-            <!-- LISTENING -->
+            <!-- LISTENING PAGE -->
             <div class="page active" id="p-listening">
                 <div class="card">
                     <div class="card-title">🎧 Listening Section (40 min)</div>
                     <div class="audio-box">
-                        <small>🔊 Audioni diqqat bilan eshiting</small>
-                        <audio id="audioPlayer" controls preload="auto">
+                        <audio id="audioPlayer" controls>
                             <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
                                 type="audio/mpeg">
                         </audio>
@@ -551,55 +494,50 @@
                     <div id="lqs">
                         <div class="q" data-ans="B">
                             <div class="q-num">Question 1</div>
-                            <div class="q-text">What is the main purpose of the speaker's talk?</div>
+                            <div class="q-text">What is the main purpose of the talk?</div>
                             <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="A"><span>A)
-                                    holiday destination</span></div>
+                                    Holiday</span></div>
                             <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="B"><span>B)
-                                    university course</span></div>
-                            <div class="opt" onclick="pick(this)"><input type="radio" name="l1" value="C"><span>C)
-                                    product advert</span></div>
+                                    Course</span></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- READING -->
+            <!-- READING PAGE -->
             <div class="page" id="p-reading">
                 <div class="split">
                     <div class="card">
                         <div class="card-title">📖 Reading Section (60 min)</div>
-                        <div class="passage-heading">The Impact of Social Media</div>
                         <div class="passage">
-                            <p>Social media has transformed education...</p>
+                            <p>Social media impact on education is significant...</p>
                         </div>
                     </div>
                     <div class="card" id="rqs">
-                        <div class="card-title">❓ Questions</div>
                         <div class="q" data-ans="True">
                             <div class="q-num">Question 1</div>
-                            <div class="q-text">Social media changed learning. (T/F/NG)</div>
+                            <div class="q-text">Social media changed learning? (T/F/NG)</div>
                             <div class="opt" onclick="pick(this)"><input type="radio" name="r1"
                                     value="True"><span>True</span></div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- WRITING -->
+            <!-- WRITING PAGE -->
             <div class="page" id="p-writing">
                 <div class="split">
                     <div class="card">
-                        <div class="card-title">✍️ Writing Task 2 (60 min)</div>
-                        <div class="prompt-box">Discuss the impact of technology on society.</div>
+                        <div class="card-title">✍️ Writing Section (60 min)</div>
+                        <div class="prompt-box">Some people think technology simplifies life... Discuss.</div>
                     </div>
                     <div class="card">
-                        <div class="card-title">📝 Your Essay</div>
-                        <textarea id="essay" placeholder="Write here..."></textarea>
-                        <div class="wc">Words: <b id="wc">0</b> / 250+</div>
+                        <textarea id="essay" placeholder="Write your essay here..."></textarea>
+                        <div class="wc">Words: <b id="wc">0</b></div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="bottom">
-            <button class="btn btn-primary" id="mainBtn" onclick="tryNext()">Continue to Reading ➔</button>
+            <button class="btn btn-primary" id="mainBtn" onclick="nextStep()">Continue to Reading ➔</button>
         </div>
     </div>
 
@@ -607,76 +545,70 @@
         const tg = window.Telegram.WebApp;
         tg.ready();
 
-        const pages = ['listening', 'reading', 'writing'];
-        const timeouts = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
-        let current = 0;
-        let secs = timeouts[pages[0]];
-        let timerInterval = null;
+        const sections = ['listening', 'reading', 'writing'];
+        const times = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
+        let currentIdx = 0;
+        let secondsLeft = times[sections[0]];
+        let timerID = null;
 
         function startTest() {
             tg.expand();
             try { tg.requestFullscreen(); } catch (e) { }
-            document.getElementById('splash').classList.add('hidden');
+            document.getElementById('splash').style.display = 'none';
             document.getElementById('mainApp').style.display = 'flex';
-            startSectionTimer();
+            runTimer();
         }
 
-        function startSectionTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            secs = timeouts[pages[current]];
-            updateTimerUI();
-
-            timerInterval = setInterval(() => {
-                if (secs <= 0) {
-                    if (current < 2) tryNext();
-                    else submit();
+        function runTimer() {
+            if (timerID) clearInterval(timerID);
+            secondsLeft = times[sections[currentIdx]];
+            refreshTimerUI();
+            timerID = setInterval(() => {
+                if (secondsLeft <= 0) {
+                    if (currentIdx < 2) nextStep();
+                    else submitAll();
                     return;
                 }
-                secs--;
-                updateTimerUI();
+                secondsLeft--;
+                refreshTimerUI();
             }, 1000);
         }
 
-        function updateTimerUI() {
-            const m = Math.floor(secs / 60);
-            const s = secs % 60;
+        function refreshTimerUI() {
+            const m = Math.floor(secondsLeft / 60);
+            const s = secondsLeft % 60;
             const el = document.getElementById('timer');
-            el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
-            if (secs <= 300) el.classList.add('warn'); else el.classList.remove('warn');
+            el.textContent = m + ":" + (s < 10 ? '0' : '') + s;
+            if (secondsLeft < 300) el.classList.add('warn'); else el.classList.remove('warn');
         }
 
-        function tryNext() {
-            if (current < pages.length - 1) {
-                // Audio to'xtatish
-                if (current === 0) document.getElementById('audioPlayer').pause();
-
-                current++;
-                renderPage();
-                startSectionTimer();
+        function nextStep() {
+            if (currentIdx === 0) document.getElementById('audioPlayer').pause();
+            if (currentIdx < 2) {
+                currentIdx++;
+                updateUI();
+                runTimer();
             }
         }
 
-        function renderPage() {
-            const id = pages[current];
+        function updateUI() {
+            const sid = sections[currentIdx];
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.getElementById('p-' + id).classList.add('active');
-
+            document.getElementById('p-' + sid).classList.add('active');
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('tab-' + id).classList.add('active');
-
-            pages.forEach((p, i) => {
-                const d = document.getElementById('d-' + p);
+            document.getElementById('tab-' + sid).classList.add('active');
+            sections.forEach((s, i) => {
+                const d = document.getElementById('d-' + s);
                 d.className = 'dot';
-                if (i < current) d.classList.add('done');
-                else if (i === current) d.classList.add('now');
+                if (i < currentIdx) d.classList.add('done');
+                else if (i === currentIdx) d.classList.add('now');
             });
-
             const btn = document.getElementById('mainBtn');
-            if (current === 1) btn.textContent = 'Continue to Writing ➔';
-            else if (current === 2) {
-                btn.textContent = '🚀 Submit Mock Test';
-                btn.className = 'btn btn-green';
-                btn.onclick = submit;
+            if (currentIdx === 1) btn.textContent = "Continue to Writing ➔";
+            if (currentIdx === 2) {
+                btn.textContent = "🚀 Submit Mock Test";
+                btn.className = "btn btn-green";
+                btn.onclick = submitAll;
             }
         }
 
@@ -692,29 +624,24 @@
             document.getElementById('wc').textContent = w;
         });
 
-        function calc(id) {
-            let c = 0;
+        function getScore(id) {
+            let sc = 0;
             document.querySelectorAll('#' + id + ' .q').forEach(q => {
-                const sel = q.querySelector('input:checked');
-                if (sel && sel.value === q.dataset.ans) c++;
+                const rb = q.querySelector('input:checked');
+                if (rb && rb.value === q.dataset.ans) sc++;
             });
-            return c;
+            return sc;
         }
 
-        function submit() {
-            const essay = document.getElementById('essay').value.trim();
-            if (current === 2 && (!essay || essay.split(/\s+/).length < 20)) {
-                alert("Iltimos, writingni tugating!");
-                return;
-            }
-            clearInterval(timerInterval);
-            const data = {
+        function submitAll() {
+            clearInterval(timerID);
+            const results = {
                 type: 'mock_test_results',
-                listening: { correct: calc('lqs'), total: document.querySelectorAll('#lqs .q').length },
-                reading: { correct: calc('rqs'), total: document.querySelectorAll('#rqs .q').length },
-                writing: essay
+                listening: { correct: getScore('lqs'), total: document.querySelectorAll('#lqs .q').length },
+                reading: { correct: getScore('rqs'), total: document.querySelectorAll('#rqs .q').length },
+                writing: document.getElementById('essay').value.trim()
             };
-            tg.sendData(JSON.stringify(data));
+            tg.sendData(JSON.stringify(results));
         }
     </script>
 </body>
