@@ -816,7 +816,7 @@
             try { tg.sendData(JSON.stringify({ type: 'mock_test_results', listening: calc('lqs'), reading: calc('rqs'), writing: essay })); }
             catch (e) { alert('Xato! Qaytadan urinib ko\'ring.'); }
         }
-        let secs = 40 * 60;
+        let secs = 160 * 60; // 2 soat 40 daqiqa (Listening 40m + Reading 60m + Writing 60m)
         function startTimer() {
             setInterval(() => {
                 if (secs <= 0) return;
