@@ -32,7 +32,6 @@
             flex-direction: column;
         }
 
-        /* Official Header */
         header {
             background: #fff;
             border-bottom: 2px solid var(--border);
@@ -52,7 +51,6 @@
             font-weight: bold;
         }
 
-        /* Main Layout */
         .main-container {
             flex: 1;
             display: flex;
@@ -71,7 +69,6 @@
             border-radius: 4px;
         }
 
-        /* Question Styles */
         .passage {
             line-height: 1.8;
             color: #1f2937;
@@ -87,6 +84,8 @@
             align-items: center;
             gap: 10px;
             flex-wrap: wrap;
+            padding: 10px;
+            border-bottom: 1px solid #f9f9f9;
         }
 
         .q-num {
@@ -95,6 +94,8 @@
             border-radius: 4px;
             font-weight: bold;
             font-size: 14px;
+            min-width: 30px;
+            text-align: center;
         }
 
         input[type="text"] {
@@ -102,8 +103,7 @@
             padding: 8px 12px;
             border-radius: 4px;
             outline: none;
-            width: 200px;
-            transition: border 0.2s;
+            width: 220px;
         }
 
         input:focus {
@@ -111,7 +111,6 @@
             box-shadow: 0 0 0 2px #dbeafe;
         }
 
-        /* Bottom Navigation (Official Style) */
         .bottom-nav {
             background: #fff;
             border-top: 2px solid var(--border);
@@ -123,12 +122,12 @@
         }
 
         .nav-btn {
-            padding: 8px 16px;
+            padding: 10px 18px;
             border: 1px solid var(--border);
             border-radius: 4px;
             background: #f9fafb;
             cursor: pointer;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 600;
         }
 
@@ -138,11 +137,6 @@
             border-color: var(--primary);
         }
 
-        .nav-btn.completed {
-            border-bottom: 3px solid var(--green);
-        }
-
-        /* Dashboard */
         #dashboard {
             position: fixed;
             inset: 0;
@@ -173,40 +167,32 @@
             cursor: pointer;
             margin-top: 20px;
             text-transform: uppercase;
+            border-radius: 4px;
         }
 
-        /* Hidden UI */
         .hidden {
             display: none !important;
         }
 
-        /* Tiiny host bypass */
-        #tiiny-host-banner,
-        div[style*="z-index: 2147483647"] {
+        div[style*="z-index: 2147483647"],
+        iframe {
             display: none !important;
-            visibility: hidden !important;
         }
     </style>
 </head>
 
 <body>
 
-    <!-- DASHBOARD VIEW -->
     <div id="dashboard">
         <div class="start-card">
             <h1 style="font-size: 32px; font-weight: 800; margin-bottom: 10px;">IELTS <span>ONLINE</span></h1>
-            <p style="color: #666; margin-bottom: 30px;">This is a computer-delivered IELTS simulation.</p>
-            <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: left;">
-                <p><strong>Test:</strong> Cambridge Assessment English</p>
-                <p><strong>Format:</strong> L, R, W + AI Speaking</p>
-            </div>
+            <p style="color: #666; margin-bottom: 30px;">Computer-Delivered Simulation (40:40:60)</p>
             <button class="official-btn" onclick="startOfficialTest()">Start Test</button>
         </div>
     </div>
 
-    <!-- TEST VIEW -->
     <header class="hidden" id="test-header">
-        <div style="font-weight: 800; font-size: 18px;">IELTS Simulation</div>
+        <div style="font-weight: 800; font-size: 18px;" id="mode-title">LISTENING</div>
         <div class="timer" id="timer">40:00</div>
     </header>
 
@@ -215,14 +201,8 @@
             class="hidden">
             <audio id="test-audio" controls style="width: 100%; height: 35px;"></audio>
         </div>
-
-        <div class="content-area" id="ques-container">
-            <!-- Questions load here -->
-        </div>
-
-        <div class="bottom-nav" id="parts-nav">
-            <!-- Parts like Part 1, Part 2, etc -->
-        </div>
+        <div class="content-area" id="ques-container"></div>
+        <div class="bottom-nav" id="parts-nav"></div>
     </div>
 
     <script id="mock-data-script" type="application/json">
@@ -325,8 +305,8 @@
         tg.ready();
 
         let ALL_DATA = {};
-        let currentMode = 'listening'; // listening, reading, writing
-        let currentPart = 0; // 0=Part 1, 1=Part 2...
+        let currentMode = 'listening';
+        let currentPart = 0; // 0, 1, 2, 3 (Part 1-4)
         let timerID = null;
         let seconds = 0;
 
@@ -347,6 +327,7 @@
         function initSection(mode) {
             currentMode = mode;
             currentPart = 0;
+            document.getElementById('mode-title').textContent = mode.toUpperCase();
 
             if (mode === 'listening') {
                 seconds = 30 * 60;
@@ -365,54 +346,70 @@
         function renderNav() {
             const nav = document.getElementById('parts-nav');
             nav.innerHTML = '';
-            const partsCount = currentMode === 'writing' ? 1 : 4;
+
+            let partsCount = 0;
+            if (currentMode === 'listening') partsCount = 4;
+            else if (currentMode === 'reading') partsCount = 3;
+            else partsCount = 1;
 
             for (let i = 0; i < partsCount; i++) {
                 const btn = document.createElement('button');
                 btn.className = `nav-btn ${i === currentPart ? 'active' : ''}`;
-                btn.textContent = currentMode === 'writing' ? 'Writing Task' : `Part ${i + 1}`;
-                btn.onclick = () => { currentPart = i; renderNav(); renderPart(); };
+                btn.textContent = currentMode === 'writing' ? 'Writing' : `Part ${i + 1}`;
+                btn.onclick = () => {
+                    currentPart = i;
+                    renderNav();
+                    renderPart();
+                    document.getElementById('ques-container').scrollTop = 0;
+                };
                 nav.appendChild(btn);
             }
 
-            // Next Section Button
-            const nextBtn = document.createElement('button');
-            nextBtn.className = 'nav-btn';
-            nextBtn.style.background = '#000';
-            nextBtn.style.color = '#fff';
-            nextBtn.textContent = 'Next Section ➔';
-            nextBtn.onclick = switchToNextSection;
-            nav.appendChild(nextBtn);
+            const nextSect = document.createElement('button');
+            nextSect.className = 'nav-btn';
+            nextSect.style.background = '#000';
+            nextSect.style.color = '#fff';
+            nextSect.textContent = currentMode === 'writing' ? 'FINISH' : 'NEXT SECTION ➔';
+            nextSect.onclick = switchToNextSection;
+            nav.appendChild(nextSect);
         }
 
         function renderPart() {
             const container = document.getElementById('ques-container');
             container.innerHTML = '';
             const data = ALL_DATA[currentMode];
+            if (!data) return;
 
             if (currentMode === 'writing') {
-                container.innerHTML = `<div class="passage"><strong>Task:</strong><br>${data.prompt}</div>
-                                   <textarea style="width:100%; height:400px; padding:15px; border-radius:4px; border:1px solid #ccc; font-size:16px; outline:none;" placeholder="Type your answer here..."></textarea>`;
+                container.innerHTML = `<div class="passage"><strong>Task 2 Prompt:</strong><br>${data.prompt}</div><textarea style="width:100%; height:400px; padding:15px; border-radius:4px; border:1px solid #ccc; font-size:16px; outline:none;" placeholder="Type your essay here..."></textarea>`;
                 return;
             }
 
-            if (currentMode === 'reading') {
+            if (currentMode === 'reading' && data.passage) {
                 const pass = document.createElement('div');
                 pass.className = 'passage';
-                pass.innerHTML = data.passage || "";
+                // Reading passage passage qismini qismlarga bo'lish (agar mavjud bo'lsa)
+                const passages = data.passage.split('<br><hr><br>');
+                pass.innerHTML = passages[currentPart] || passages[0];
                 container.appendChild(pass);
             }
 
-            // Render roughly 10 questions per part
-            const startQ = currentPart * 10;
-            const endQ = startQ + 10;
-            const slice = (data.questions || []).slice(startQ, endQ);
+            // QISMLARGA BO'LISH (10 tadan)
+            const allQ = data.questions || [];
+            const startIdx = currentPart * 10;
+            const endIdx = startIdx + 13; // Ba'zan Partlarda 13 ta savolgacha bo'lishi mumkin
+            const slice = allQ.slice(startIdx, endIdx);
+
+            if (slice.length === 0 && currentPart > 0) {
+                container.innerHTML = `<div style="padding:20px; text-align:center; color:#666;">No more questions in this part.</div>`;
+                return;
+            }
 
             slice.forEach(q => {
                 const row = document.createElement('div');
                 row.className = 'question-row';
                 row.innerHTML = `<span class="q-num">${q.id}</span> 
-                             <span style="font-size:14px;">${q.text}</span> 
+                             <span style="font-size:14px; flex:1;">${q.text}</span> 
                              <input type="text" placeholder="Type answer...">`;
                 container.appendChild(row);
             });
@@ -437,7 +434,9 @@
 
         function finishTest() {
             clearInterval(timerID);
-            tg.sendData(JSON.stringify({ type: 'mock_test_results', info: 'Student finished formal test' }));
+            alert("Well done! Your test is submitted. AI scoring is in progress.");
+            tg.sendData(JSON.stringify({ type: 'mock_test_results', status: 'finished' }));
+            tg.close();
         }
     </script>
 </body>
