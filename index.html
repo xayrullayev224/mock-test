@@ -43,7 +43,6 @@
             width: 100%;
         }
 
-        /* DASHBOARD */
         .dashboard {
             flex: 1;
             overflow-y: auto;
@@ -83,14 +82,8 @@
             border: 1.5px solid var(--border);
             border-radius: 24px;
             padding: 24px;
-            position: relative;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .card:active {
-            transform: translateY(2px);
-            border-color: var(--primary);
+            transition: 0.3s;
         }
 
         .card-icon {
@@ -129,6 +122,7 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
             box-shadow: 0 4px 12px rgba(225, 29, 72, 0.3);
+            border: none;
             cursor: pointer;
         }
 
@@ -149,7 +143,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: white;
         }
 
         .timer {
@@ -178,7 +171,9 @@
         }
 
         .q-item {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 20px;
         }
 
         .q-label {
@@ -186,23 +181,38 @@
             font-size: 15px;
             margin-bottom: 14px;
             display: block;
+            color: #1e293b;
         }
 
         .option {
             padding: 15px;
             border: 1px solid var(--border);
             border-radius: 14px;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 14px;
             cursor: pointer;
             transition: 0.2s;
             background: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .option.active {
             background: #fff1f2;
             border-color: var(--primary);
             font-weight: 700;
+            color: var(--primary);
+        }
+
+        .passage-box {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            font-size: 15px;
+            line-height: 1.8;
+            border-left: 5px solid var(--primary);
         }
 
         .footer-action {
@@ -224,15 +234,12 @@
             border-radius: 16px;
             font-size: 16px;
             font-weight: 800;
-        }
-
-        .hidden {
-            display: none !important;
+            cursor: pointer;
         }
 
         textarea {
             width: 100%;
-            height: 300px;
+            height: 320px;
             padding: 16px;
             border-radius: 14px;
             border: 1px solid var(--border);
@@ -240,11 +247,8 @@
             resize: none;
             outline: none;
             background: #fff;
-            font-size: 15px;
-        }
-
-        textarea:focus {
-            border-color: var(--primary);
+            font-size: 16px;
+            line-height: 1.6;
         }
 
         /* Tiiny hide */
@@ -263,22 +267,14 @@
         <div id="dashboard-view" class="dashboard">
             <div class="header-logo">
                 <h1>IELTS <span>Prep</span></h1>
-                <p>Experience the real Computer-Delivered IELTS environment from home.</p>
+                <p>The Ultimate 40:40 Practice Simulation.</p>
             </div>
-
-            <div class="test-list" id="test-list-container">
+            <div class="test-list">
                 <div class="card">
                     <div class="card-icon">📚</div>
-                    <h3>Full Mock Test</h3>
-                    <p>Standard L, R, W sequence (2h 40m). Followed by AI Speaking Session to get your Band Score.</p>
-                    <button class="start-btn" onclick="startMock()">Start Full Test</button>
-                </div>
-
-                <div class="card">
-                    <div class="card-icon">🎧</div>
-                    <h3>Listening Practice</h3>
-                    <p>Focus only on your listening skills. Real-time audio and questions.</p>
-                    <button class="start-btn" style="background: #64748b; box-shadow:none;">Practice Only</button>
+                    <h3>Cambridge 18 Full Test</h3>
+                    <p>Real L (40), R (40), W sequence + Speaking Session.</p><button class="start-btn"
+                        onclick="startMock()">Start Full Test</button>
                 </div>
             </div>
         </div>
@@ -286,14 +282,12 @@
         <!-- TEST INTERFACE -->
         <div id="test-view" class="test-ui">
             <div class="test-top">
-                <div id="section-name" style="font-weight:900; font-size:16px;">LISTENING</div>
+                <div id="section-name" style="font-weight:900; font-size:16px; color:var(--primary)">LISTENING</div>
                 <div class="timer" id="timer-text">40:00</div>
             </div>
-            <div class="test-container" id="test-content">
-            </div>
-            <div class="footer-action">
-                <button class="main-btn" id="footer-btn" onclick="handleNavigation()">Continue ➔</button>
-            </div>
+            <div class="test-container" id="test-content"></div>
+            <div class="footer-action"><button class="main-btn" id="footer-btn" onclick="handleNavigation()">Continue
+                    ➔</button></div>
         </div>
     </div>
 
@@ -301,51 +295,61 @@
         const tg = window.Telegram.WebApp;
         tg.ready();
 
+        // 🏆 FULL 40-40 DATA STRUCTURE
+        const MOCK_DATA = {
+            listening: {
+                audio: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                questions: Array.from({ length: 40 }, (_, i) => ({ id: i + 1, text: `Listening Question ${i + 1}: What happened next?`, options: ["A) Decision", "B) Action", "C) Plan", "D) Result"], ans: "A" }))
+            },
+            reading: {
+                passages: [
+                    { title: "Passage 1: Underwater Exploration", text: "Humanity has always been fascinated by the deep oceans...", qs: 13 },
+                    { title: "Passage 2: The Future of AI", text: "AI is reshaping how we work and live...", qs: 13 },
+                    { title: "Passage 3: History of Tea", text: "Tea culture dates back thousands of years...", qs: 14 }
+                ],
+                questions: Array.from({ length: 40 }, (_, i) => ({ id: i + 1, text: `Reading Question ${i + 1}: Statement is (T/F/NG)`, options: ["True", "False", "Not Given"], ans: "True" }))
+            },
+            writing: {
+                prompt: "<b>Writing Task 2</b><br><br>Global warming is the biggest threat to humanity. To what extent do you agree?"
+            }
+        };
+
         const TIMES = { listening: 40 * 60, reading: 60 * 60, writing: 60 * 60 };
-        let sections = ['listening', 'reading', 'writing'];
+        let currentSections = ['listening', 'reading', 'writing'];
         let idx = 0;
         let secs = 0;
         let timerID = null;
 
         function startMock() {
-            // FULLSCREEN TRIGGER - Faqat tugma bosilganda
             tg.expand();
             try { tg.requestFullscreen(); } catch (e) { }
-
             idx = 0;
-            document.getElementById('dashboard-view').classList.add('hidden');
+            document.getElementById('dashboard-view').style.display = 'none';
             document.getElementById('test-view').style.display = 'flex';
             loadSection();
         }
 
         function loadSection() {
-            const sid = sections[idx];
+            const sid = currentSections[idx];
             document.getElementById('section-name').textContent = sid.toUpperCase();
             const content = document.getElementById('test-content');
             content.innerHTML = '<div class="q-view" id="q-view"></div>';
             const qView = document.getElementById('q-view');
 
             if (sid === 'listening') {
-                qView.innerHTML = `
-                <div style="margin-bottom:24px;"><audio id="audio" controls style="width:100%"><source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio></div>
-                <div class="q-item"><span class="q-label">1. What is the lecture about?</span>
-                <div class="option" onclick="this.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));this.classList.add('active')">A) History</div>
-                <div class="option" onclick="this.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));this.classList.add('active')">B) Biology</div></div>
-            `;
+                qView.innerHTML = `<h3>Part 1-4</h3><br><audio controls style="width:100%"><source src="${MOCK_DATA.listening.audio}"></audio><br>` +
+                    MOCK_DATA.listening.questions.map(q => `
+                    <div class="q-item"><span class="q-label">Q${q.id}. ${q.text}</span>
+                    ${q.options.map(o => `<div class="option" onclick="selectOpt(this, 'l${q.id}')">${o}</div>`).join('')}</div>
+                `).join('');
             } else if (sid === 'reading') {
-                qView.innerHTML = `
-                <div style="background:#f8fafc; padding:20px; border-radius:12px; margin-bottom:24px; border-left:4px solid var(--primary); font-size:15px; line-height:1.7;">
-                    <b>Passage 1: Renewable Energy</b><br>Solar power is considered one of the most promising sources of clean energy...
-                </div>
-                <div class="q-item"><span class="q-label">1. Solar power is clean. (T/F/NG)</span>
-                <div class="option" onclick="this.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));this.classList.add('active')">True</div>
-                <div class="option" onclick="this.parentElement.querySelectorAll('.option').forEach(o=>o.classList.remove('active'));this.classList.add('active')">False</div></div>
-            `;
+                qView.innerHTML = MOCK_DATA.reading.passages.map(p => `<div class="passage-box"><b>${p.title}</b><br>${p.text}</div>`).join('') +
+                    MOCK_DATA.reading.questions.map(q => `
+                    <div class="q-item"><span class="q-label">Q${q.id}. ${q.text}</span>
+                    ${q.options.map(o => `<div class="option" onclick="selectOpt(this, 'r${q.id}')">${o}</div>`).join('')}</div>
+                `).join('');
             } else {
-                qView.innerHTML = `
-                <div style="margin-bottom:20px; font-weight:700; font-size:16px;">Some people think that strict punishment for driving offenses is the only way to reduce traffic accidents. Discuss.</div>
-                <textarea id="essayBox" placeholder="Write your essay..."></textarea>
-            `;
+                qView.innerHTML = `<div class="passage-box">${MOCK_DATA.writing.prompt}</div><textarea id="essayBox" placeholder="Write essay (250+ words)..." oninput="updateWC()"></textarea><p style="margin-top:5px; font-weight:700;">Words: <span id="wc">0</span></p>`;
             }
 
             secs = TIMES[sid];
@@ -353,23 +357,19 @@
             timerID = setInterval(() => {
                 if (secs <= 0) { handleNavigation(); return; }
                 secs--;
-                const m = Math.floor(secs / 60);
-                const s = secs % 60;
+                const m = Math.floor(secs / 60); const s = secs % 60;
                 document.getElementById('timer-text').textContent = (m < 10 ? '0' : '') + m + ":" + (s < 10 ? '0' : '') + s;
             }, 1000);
-
-            const btn = document.getElementById('footer-btn');
-            btn.textContent = idx < 2 ? "Continue Section ➔" : "🚀 Finish Test";
+            document.getElementById('footer-btn').textContent = idx < 2 ? "Go to Next Section ➔" : "💾 Submit My Test";
         }
 
-        function handleNavigation() {
-            if (idx < 2) {
-                idx++;
-                loadSection();
-            } else {
-                clearInterval(timerID);
-                tg.sendData(JSON.stringify({ type: 'mock_test_results', writing: document.getElementById('essayBox').value }));
-            }
+        function selectOpt(el, qid) { el.parentElement.querySelectorAll('.option').forEach(o => o.classList.remove('active')); el.classList.add('active'); }
+        function updateWC() { const v = document.getElementById('essayBox').value.trim(); document.getElementById('wc').textContent = v ? v.split(/\s+/).length : 0; }
+        function handleNavigation() { if (idx < 2) { idx++; loadSection(); document.getElementById('test-content').scrollTop = 0; } else { submit(); } }
+        function submit() {
+            clearInterval(timerID);
+            const results = { type: 'mock_test_results', writing: document.getElementById('essayBox').value, test_name: "Cambridge 18 - 40/40 Edition" };
+            tg.sendData(JSON.stringify(results));
         }
     </script>
 </body>
